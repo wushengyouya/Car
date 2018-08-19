@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link href="~/Content/mdui.css" rel="stylesheet" />
+    <style>
+        .login {
+            padding: 80px 50px;
+            
+        }
+        body {
+            height: 100%;
+        }
+        html {
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="mdui-valign mdui-color-grey-300">
+    <div class="mdui-container-fluid" >
+        <div class="mdui-row login mdui-shadow-4 mdui-hoverable mdui-color-grey-200" >
+            <div> <span class="mdui-center mdui-text-center mdui-typo-title mdui-text-color-pink">登录</span></div>
+            <div class="mdui-col-xs-12">
+                <form action="@Url.Action("Login", "Admin")" method="post">
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <i class="mdui-icon material-icons">account_circle</i>
+                        <label class="mdui-textfield-label">Admin Name</label>
+                        <input class="mdui-textfield-input" type="text" maxlength="6" required name="admin_name" />
+                        <div class="mdui-textfield-error">用户名不能为空</div>
+                    </div>
+                    @*<div class="mdui-divider"></div>*@
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <i class="mdui-icon material-icons">lock</i>
+                        <label class="mdui-textfield-label">Admin Pwd</label>
+                        <input class="mdui-textfield-input" name="admin_pwd" type="password" maxlength="10" required />
+                        <div class="mdui-textfield-error">密码至少 6 位</div>
+                    </div>
+                    @*<div class="mdui-divider"></div>*@
+                    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-pink-accent mdui-center mdui-m-t-5">登录</button>
+                </form>
+
+             
+            </div>
+
+        </div>
+
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/mdui.js"></script>
+    <script src="~/Scripts/mdui.min.js"></script>
+</body>
+</html>

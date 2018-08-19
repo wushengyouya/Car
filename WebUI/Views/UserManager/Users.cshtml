@@ -1,0 +1,47 @@
+﻿@using Common
+@model IEnumerable<WebUI.Models.UsersModel>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mdui-row">
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>编号</th>
+                <th>名字</th>
+                <th>邮箱</th>
+                <th>电话</th>
+                <th>性别</th>
+                <th>状态</th>
+                <th>地址</th>
+                <th>注册时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                foreach (var itemModel in Model)
+                {
+                    <tr>
+                        <td><img src="@Setting.HeadPicFolder@itemModel.UserHeadPortrait" style="height: 25px; width: 25px;"/></td>
+                        <td>@itemModel.UserId</td>
+                        <td class="mdui-text-truncate" style="max-width: 110px;" title="@itemModel.UserName"><a href="@Url.Action("UserDetail","UserManager",new {id=itemModel.UserId})">@itemModel.UserName</a></td>
+                        <td class="mdui-text-truncate" style="max-width: 130px;" title="@itemModel.UserEmail">@itemModel.UserEmail</td>
+                        <td>@itemModel.UserTel</td>
+                        <td>@itemModel.UserSex</td>
+                        <td>@itemModel.UserFlag</td>
+                        <td class="mdui-text-truncate" style="max-width: 200px;" title="@itemModel.UserAdress">@itemModel.UserAdress</td>
+                        <td>@itemModel.RegistTime</td>
+
+                    </tr>
+                }
+
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+

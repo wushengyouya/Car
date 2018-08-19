@@ -1,0 +1,233 @@
+﻿@using Common
+@using Model
+@model dynamic
+
+@{
+    ViewBag.Title = "GoodsDetail";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    Goods goods = Model.goods;
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/fileinput.min.css" rel="stylesheet" />
+<div class="mdui-row">
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品类别</span>
+        </div>
+
+        <div class="mdui-col">
+            @*商品类别*@
+            <select id="goodsTypeSelect" class="mdui-select" mdui-select="{position: 'bottom'}">
+                @{
+                    foreach (GoodsType goodsType in Model.viewModel.GoodsTypeList)
+                    {
+                        if (goods.goods_type_id == goodsType.goods_type_id)
+                        {
+                            <option value="@goodsType.goods_type_id" selected>@goodsType.goods_type_name</option>
+                            continue;
+                        }
+                        <option value="@goodsType.goods_type_id">@goodsType.goods_type_name</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+
+
+
+    <div class="mdui-row-xs-2 mdui-valign mdui-m-t-1">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品名称</span>
+        </div>
+        <div class="mdui-col-xs-4">
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" name="goodsName" value="@goods.goods_name" disabled />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品价格</span>
+        </div>
+        <div class="mdui-col-xs-4">
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" name="goodsPrice" value="@goods.goods_price" disabled />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品状态</span>
+        </div>
+        <div class="mdui-col-xs-4">
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" name="goodsFlag" value="@goods.goods_flag" disabled />
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品介绍</span>
+        </div>
+        <div class="mdui-col-xs-4">
+            <div class="mdui-textfield">
+                <input style="padding: 10px 0px;" class="mdui-textfield-input" placeholder="详细介绍" name="goodsInfo" value="@goods.goods_info" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品数量</span>
+        </div>
+        <div class="mdui-col-xs-4">
+            <div class="mdui-textfield">
+                <input class="mdui-textfield-input" type="text" name="goodsCount" value="@goods.goods_count" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div class="mdui-divider-inset mdui-m-t-5 mdui-m-b-3"></div>
+
+    <div class="mdui-row-xs-2 mdui-valign">
+        <div class="mdui-col mdui-text-center ">
+            <span class="mdui-text-color-theme-accent mdui-typo-title">商品图片</span>
+        </div>
+        <div class="mdui-col">
+            <button mdui-dialog="{target:'#addGoodsPictureDialog'}" id="goodsAdd" class="mdui-btn mdui-float-right  mdui-btn-icon mdui-m-r-1" style="padding: 25px;" mdui-tooltip="{content: '上传图片'}"><i class="mdui-icon material-icons">file_upload</i></button>
+        </div>
+    </div>
+
+ 
+
+    @{
+        int count = Model.picturesList.Count;
+        for (int i = 1; i <= Math.Ceiling(count / 4.0); i++)
+        {
+            <div class="mdui-row-xs-4 mdui-m-t-5 mdui-grid-list">
+                @{
+                    for (int j = (i - 1) * 4; j < (i * 4 > count ? count : i * 4); j++)
+                    {
+                        <div class="mdui-col">
+                            <div class="mdui-card mdui-hoverable">
+                                <div class="mdui-card-media">
+                                    <img class="mdui-img-rounded" src="@Setting.GoodsPicFolder@Model.picturesList[j].picture_adress" />
+                                </div>
+                                <div class="mdui-card-actions mdui-card-actions-stacked mdui-valign">
+                                    <span>@Model.picturesList[j].picture_adress</span>
+
+                                    <button picture_id="@Model.picturesList[j].picture_id" class="mdui-float-right deleteGoodsPicture mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon material-icons">delete</i></button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+
+</div>
+<div class="mdui-dialog" id="addGoodsPictureDialog">
+    <div class="mdui-dialog-title">添加商品图片</div>
+    <div class="mdui-dialog-content">
+        <input id="file-upload" type="file" multiple>
+    </div>
+</div>
+
+<script>
+    var goods_id = @goods.goods_id;
+    var count = null;
+    //_resetUpload
+
+    $(function () {
+        //$(".mdui-textfield-input").attr("disabled","");
+
+        //初始化fileinput控件（第一次初始化）
+
+        initFileInput("file-upload", "/GoodsManager/GoodsPicUpLoad");
+
+        $(".deleteGoodsPicture").click(function () {
+            var obj = $(this);
+            mdui.confirm('确认删除吗?', '提示框', function () {
+                $.ajax({
+                    method: "post",
+                    url: "/GoodsManager/GoodsManagerDetail",
+                    data: {
+                        action: "delete",
+                        goods_id:goods_id,
+                        picture_adress: obj.siblings().get(0).innerText,
+                        picture_id: obj.attr("picture_id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Msg ==="删除成功") {
+                            window.location.reload();
+                        } else {
+                            mdui.alert("删除失败");
+                        }
+
+                    },
+                    error: function (xhr,e) {
+                        console.log(e);
+                    }
+
+                });
+            }, {}, { confirmText: "确认", cancelText: "取消" });
+        });
+    });
+    //初始化fileinput控件（第一次初始化）
+    function initFileInput(ctrlName, uploadUrl) {
+        var control = $('#' + ctrlName);
+        control.fileinput({
+            language: 'zh', //设置语言
+            uploadUrl: uploadUrl, //上传的地址
+            maxFileCount: 4,
+            enctype: 'multipart/form-data',
+            maxFileSize: 0,
+            overwriteInitial: false,
+            validateInitialCount: true,
+            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+            showUpload: true, //是否显示上传按钮
+            showPreview: true,
+            showCaption: true,//是否显示标题
+            showBrowse: true,
+            browseClass: "btn btn-primary", //按钮样式
+            previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            dropZoneEnabled: true,
+            //window:on
+            layoutTemplates :{
+                // actionDelete:'', //去除上传预览的缩略图中的删除图标
+                actionUpload:''//去除上传预览缩略图中的上传图片；
+                // actionZoom:''   //去除上传预览缩略图中的查看详情预览的缩略图标。
+            },
+            uploadExtraData: {
+                id:goods_id
+            }
+        }).on("fileuploaded", function (event, data, previewId, index) {
+           // alert(index);
+            if ((index + 1) === count) {
+                Snackbar(data.response.Msg);//没有走这步
+                count = null;
+                setTimeout(function() {
+                        window.location.reload();
+                    },
+                    1000);
+
+            }
+
+
+        }).on("filebatchselected", function(event, files) {
+            count = files.length;
+        });;
+    }
+
+
+</script>

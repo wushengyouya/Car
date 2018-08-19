@@ -1,0 +1,68 @@
+﻿@using BLL
+@using Model
+@model IEnumerable<Model.OrderInfo>
+@{
+    ViewBag.Title = "SearchShopCart";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Script
+{
+    <script>
+        $('#searchOrders').on('keypress',
+            function (event) {
+                if (event.keyCode === 13) {
+                    window.location.href = "@Url.Action("SearchOrders","Order")" + "?keyword=" + $(this).val();
+                }
+
+            });
+    </script>
+}
+<div class="mdui-row">
+    <div class="mdui-float-left  mdui-m-b-2">
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
+            <input id="searchOrders" class="mdui-textfield-input" type="text" placeholder="输入订单编号或用户名" />
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
+        </div>
+    </div>
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>下单用户</th>
+                <th>订单状态</th>
+                <th>快递编号</th>
+                <th>下单时间</th>
+                <th>订单总额</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                        
+                    UserInfo user = item.UserInfo;
+                    <tr>
+                        <td><a mdui-tooltip="{content: '订单详情'}" href="@Url.Action("UserOrderDetail", "Order", new {orderId = item.order_id})">@item.order_id</a></td>
+                        <td><a href="@Url.Action("UserDetail", "UserManager", new {id = user.user_id})">@user.user_name</a></td>
+                        <td>@Tool.OrderFlagToString((Tool.OrderFlag)item.order_flag)</td>
+                        <td>@item.order_express_id</td>
+                        <td>@item.order_time</td>
+                        <td>@item.order_totalMoney<span>元</span></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    @{
+        if (!Model.Any())
+        {
+            <h2 class="mdui-text-color-theme-accent">"当前搜索无订单"</h2>
+        }
+    }
+</div>
+
+

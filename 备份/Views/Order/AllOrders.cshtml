@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebUI.Models.AllOrdersModel>
+@{
+    ViewBag.Title = "AllOrders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="mdui-row">
+    <div class="mdui-text-right mdui-m-b-2">
+        <button id="ordersAdd" class="mdui-btn mdui-btn-icon mdui-m-r-1" style="padding: 25px;" mdui-tooltip="{content: '添加'}"><i class="mdui-icon material-icons">add</i></button>
+        <button id="ordersEdit" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '编辑'}"><i class="mdui-icon material-icons">update</i></button>
+        <button id="ordersDelete" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '删除'}"><i class="mdui-icon material-icons">delete</i></button>
+    </div>
+    
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table mdui-table-selectable ">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>下单用户</th>
+                <th>订单状态</th> 
+                <th>快递编号</th>
+                <th>下单时间</th> 
+                <th>订单总额</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                  @{
+                      foreach (var item in Model)
+                      {
+                          <tr>
+                              <td>@item.OrderId</td>
+                              <td>@item.UserName</td>
+                              <td>@item.OrderFlag</td>
+                              <td>@item.OrderExpressId</td>
+                              <td>@item.OrderTime</td>
+                              <td>@item.OrderTotalMoney</td>
+                          </tr>
+                      }
+                  }  
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

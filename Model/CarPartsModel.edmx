@@ -1,0 +1,911 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarPartsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="admin_name" Type="varchar" MaxLength="50" />
+          <Property Name="admin_tel" Type="varchar" MaxLength="50" />
+          <Property Name="admin_pwd" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CollectGoods">
+          <Key>
+            <PropertyRef Name="collect_id" />
+            <PropertyRef Name="goods_id" />
+          </Key>
+          <Property Name="collect_id" Type="int" Nullable="false" />
+          <Property Name="goods_id" Type="int" Nullable="false" />
+          <Property Name="collect_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="comment_id" />
+          </Key>
+          <Property Name="comment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="goods_id" Type="int" Nullable="false" />
+          <Property Name="comment_content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="comment_time" Type="datetime" Nullable="false" />
+          <Property Name="comment_flag" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+          </Key>
+          <Property Name="goods_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="goods_type_id" Type="int" />
+          <Property Name="goods_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="goods_price" Type="int" Nullable="false" />
+          <Property Name="goods_flag" Type="int" Nullable="false" />
+          <Property Name="goods_info" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="goods_count" Type="int" Nullable="false" />
+          <Property Name="goods_addTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="goods_title" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="sell_count" Type="int" />
+        </EntityType>
+        <EntityType Name="GoodsType">
+          <Key>
+            <PropertyRef Name="goods_type_id" />
+          </Key>
+          <Property Name="goods_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="goods_type_name" Type="varchar" MaxLength="50" />
+          <Property Name="goods_type_addTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Order_Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="goods_id" Type="int" Nullable="false" />
+          <Property Name="order_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="goods_count" Type="int" Nullable="false" />
+          <Property Name="goods_money" Type="int" Nullable="false" />
+          <Property Name="is_commect" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderInfo">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="order_totalMoney" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="order_time" Type="datetime" />
+          <Property Name="order_express_id" Type="varchar" MaxLength="100" />
+          <Property Name="order_flag" Type="int" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="picture_id" />
+          </Key>
+          <Property Name="picture_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="goods_id" Type="int" />
+          <Property Name="picture_adress" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="reply_id" />
+          </Key>
+          <Property Name="reply_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reply_content" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="reply_time" Type="datetime" Nullable="false" />
+          <Property Name="reply_flag" Type="int" Nullable="false" />
+          <Property Name="comment_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShopCart_Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+            <PropertyRef Name="shopCart_id" />
+          </Key>
+          <Property Name="goods_id" Type="int" Nullable="false" />
+          <Property Name="shopCart_id" Type="int" Nullable="false" />
+          <Property Name="goods_count" Type="int" Nullable="false" />
+          <Property Name="goods_AddTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_email" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_tel" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_sex" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_flag" Type="int" />
+          <Property Name="user_head_portrait" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_pwd" Type="nvarchar" MaxLength="100" />
+          <Property Name="user_adress" Type="nvarchar" MaxLength="100" />
+          <Property Name="regist_time" Type="datetime" />
+          <Property Name="remeber_pwd" Type="int" />
+          <Property Name="receiver" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_CollectGoods_Goods">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CollectGoods" Type="Self.CollectGoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="CollectGoods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CollectGoods_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+          <End Role="CollectGoods" Type="Self.CollectGoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="CollectGoods">
+              <PropertyRef Name="collect_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_RELATIONS_GOODS">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GOODSTYPE_GO_RELATIONS_GOODS">
+          <End Role="GoodsType" Type="Self.GoodsType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsType">
+              <PropertyRef Name="goods_type_id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="goods_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_GO_RELATIONS_GOODS">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order_Goods" Type="Self.Order_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Order_Goods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_GO_RELATIONS_ORDER">
+          <End Role="OrderInfo" Type="Self.OrderInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Order_Goods" Type="Self.Order_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfo">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Order_Goods">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_RELATIONS_USER">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="OrderInfo" Type="Self.OrderInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="OrderInfo">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PICTURE_RELATIONS_GOODS">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Picture" Type="Self.Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_Comment">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="Reply" Type="Self.Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="comment_id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="comment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+          <End Role="Reply" Type="Self.Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShopCart_Goods_UserInfo">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ShopCart_Goods" Type="Self.ShopCart_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="ShopCart_Goods">
+              <PropertyRef Name="shopCart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SHOPCART_RELATIONS_GOODS">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ShopCart_Goods" Type="Self.ShopCart_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="ShopCart_Goods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarPartsModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CollectGoods" EntityType="Self.CollectGoods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Goods" EntityType="Self.Goods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoodsType" EntityType="Self.GoodsType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Goods" EntityType="Self.Order_Goods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderInfo" EntityType="Self.OrderInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reply" EntityType="Self.Reply" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShopCart_Goods" EntityType="Self.ShopCart_Goods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfo" EntityType="Self.UserInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CollectGoods_Goods" Association="Self.FK_CollectGoods_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="CollectGoods" EntitySet="CollectGoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CollectGoods_UserInfo" Association="Self.FK_CollectGoods_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="CollectGoods" EntitySet="CollectGoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_RELATIONS_GOODS" Association="Self.FK_COMMENT_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserInfo" Association="Self.FK_Comment_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GOODSTYPE_GO_RELATIONS_GOODS" Association="Self.FK_GOODSTYPE_GO_RELATIONS_GOODS">
+            <End Role="GoodsType" EntitySet="GoodsType" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_GO_RELATIONS_GOODS" Association="Self.FK_ORDER_GO_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Order_Goods" EntitySet="Order_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_GO_RELATIONS_ORDER" Association="Self.FK_ORDER_GO_RELATIONS_ORDER">
+            <End Role="OrderInfo" EntitySet="OrderInfo" />
+            <End Role="Order_Goods" EntitySet="Order_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_RELATIONS_USER" Association="Self.FK_ORDER_RELATIONS_USER">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="OrderInfo" EntitySet="OrderInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PICTURE_RELATIONS_GOODS" Association="Self.FK_PICTURE_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_Comment" Association="Self.FK_Reply_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_UserInfo" Association="Self.FK_Reply_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShopCart_Goods_UserInfo" Association="Self.FK_ShopCart_Goods_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="ShopCart_Goods" EntitySet="ShopCart_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SHOPCART_RELATIONS_GOODS" Association="Self.FK_SHOPCART_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="ShopCart_Goods" EntitySet="ShopCart_Goods" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarPartsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admin" EntityType="CarPartsModel.Admin" />
+          <EntitySet Name="CollectGoods" EntityType="CarPartsModel.CollectGoods" />
+          <EntitySet Name="Comment" EntityType="CarPartsModel.Comment" />
+          <EntitySet Name="Goods" EntityType="CarPartsModel.Goods" />
+          <EntitySet Name="GoodsType" EntityType="CarPartsModel.GoodsType" />
+          <EntitySet Name="Order_Goods" EntityType="CarPartsModel.Order_Goods" />
+          <EntitySet Name="OrderInfo" EntityType="CarPartsModel.OrderInfo" />
+          <EntitySet Name="Picture" EntityType="CarPartsModel.Picture" />
+          <EntitySet Name="Reply" EntityType="CarPartsModel.Reply" />
+          <EntitySet Name="ShopCart_Goods" EntityType="CarPartsModel.ShopCart_Goods" />
+          <EntitySet Name="UserInfo" EntityType="CarPartsModel.UserInfo" />
+          <AssociationSet Name="FK_CollectGoods_Goods" Association="CarPartsModel.FK_CollectGoods_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="CollectGoods" EntitySet="CollectGoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CollectGoods_UserInfo" Association="CarPartsModel.FK_CollectGoods_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="CollectGoods" EntitySet="CollectGoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_COMMENT_RELATIONS_GOODS" Association="CarPartsModel.FK_COMMENT_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_UserInfo" Association="CarPartsModel.FK_Comment_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_Comment" Association="CarPartsModel.FK_Reply_Comment">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GOODSTYPE_GO_RELATIONS_GOODS" Association="CarPartsModel.FK_GOODSTYPE_GO_RELATIONS_GOODS">
+            <End Role="GoodsType" EntitySet="GoodsType" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_GO_RELATIONS_GOODS" Association="CarPartsModel.FK_ORDER_GO_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Order_Goods" EntitySet="Order_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PICTURE_RELATIONS_GOODS" Association="CarPartsModel.FK_PICTURE_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="Picture" EntitySet="Picture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SHOPCART_RELATIONS_GOODS" Association="CarPartsModel.FK_SHOPCART_RELATIONS_GOODS">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="ShopCart_Goods" EntitySet="ShopCart_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_GO_RELATIONS_ORDER" Association="CarPartsModel.FK_ORDER_GO_RELATIONS_ORDER">
+            <End Role="OrderInfo" EntitySet="OrderInfo" />
+            <End Role="Order_Goods" EntitySet="Order_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDER_RELATIONS_USER" Association="CarPartsModel.FK_ORDER_RELATIONS_USER">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="OrderInfo" EntitySet="OrderInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShopCart_Goods_UserInfo" Association="CarPartsModel.FK_ShopCart_Goods_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="ShopCart_Goods" EntitySet="ShopCart_Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reply_UserInfo" Association="CarPartsModel.FK_Reply_UserInfo">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="Reply" EntitySet="Reply" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="admin_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="admin_tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="admin_pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CollectGoods">
+          <Key>
+            <PropertyRef Name="collect_id" />
+            <PropertyRef Name="goods_id" />
+          </Key>
+          <Property Name="collect_id" Type="Int32" Nullable="false" />
+          <Property Name="goods_id" Type="Int32" Nullable="false" />
+          <Property Name="collect_time" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_CollectGoods_Goods" FromRole="CollectGoods" ToRole="Goods" />
+          <NavigationProperty Name="UserInfo" Relationship="CarPartsModel.FK_CollectGoods_UserInfo" FromRole="CollectGoods" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="comment_id" />
+          </Key>
+          <Property Name="comment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goods_id" Type="Int32" Nullable="false" />
+          <Property Name="comment_content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="comment_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="comment_flag" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_COMMENT_RELATIONS_GOODS" FromRole="Comment" ToRole="Goods" />
+          <NavigationProperty Name="UserInfo" Relationship="CarPartsModel.FK_Comment_UserInfo" FromRole="Comment" ToRole="UserInfo" />
+          <NavigationProperty Name="Reply" Relationship="CarPartsModel.FK_Reply_Comment" FromRole="Comment" ToRole="Reply" />
+        </EntityType>
+        <EntityType Name="Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+          </Key>
+          <Property Name="goods_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goods_type_id" Type="Int32" />
+          <Property Name="goods_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="goods_price" Type="Int32" Nullable="false" />
+          <Property Name="goods_flag" Type="Int32" Nullable="false" />
+          <Property Name="goods_info" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="goods_count" Type="Int32" Nullable="false" />
+          <Property Name="goods_addTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="goods_title" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CollectGoods" Relationship="CarPartsModel.FK_CollectGoods_Goods" FromRole="Goods" ToRole="CollectGoods" />
+          <NavigationProperty Name="Comment" Relationship="CarPartsModel.FK_COMMENT_RELATIONS_GOODS" FromRole="Goods" ToRole="Comment" />
+          <NavigationProperty Name="GoodsType" Relationship="CarPartsModel.FK_GOODSTYPE_GO_RELATIONS_GOODS" FromRole="Goods" ToRole="GoodsType" />
+          <NavigationProperty Name="Order_Goods" Relationship="CarPartsModel.FK_ORDER_GO_RELATIONS_GOODS" FromRole="Goods" ToRole="Order_Goods" />
+          <NavigationProperty Name="Picture" Relationship="CarPartsModel.FK_PICTURE_RELATIONS_GOODS" FromRole="Goods" ToRole="Picture" />
+          <NavigationProperty Name="ShopCart_Goods" Relationship="CarPartsModel.FK_SHOPCART_RELATIONS_GOODS" FromRole="Goods" ToRole="ShopCart_Goods" />
+          <Property Name="sell_count" Type="Int32" />
+        </EntityType>
+        <EntityType Name="GoodsType">
+          <Key>
+            <PropertyRef Name="goods_type_id" />
+          </Key>
+          <Property Name="goods_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goods_type_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="goods_type_addTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_GOODSTYPE_GO_RELATIONS_GOODS" FromRole="GoodsType" ToRole="Goods" />
+        </EntityType>
+        <EntityType Name="Order_Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="goods_id" Type="Int32" Nullable="false" />
+          <Property Name="order_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="goods_count" Type="Int32" Nullable="false" />
+          <Property Name="goods_money" Type="Int32" Nullable="false" />
+          <Property Name="is_commect" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_ORDER_GO_RELATIONS_GOODS" FromRole="Order_Goods" ToRole="Goods" />
+          <NavigationProperty Name="OrderInfo" Relationship="CarPartsModel.FK_ORDER_GO_RELATIONS_ORDER" FromRole="Order_Goods" ToRole="OrderInfo" />
+        </EntityType>
+        <EntityType Name="OrderInfo">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="order_totalMoney" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="order_time" Type="DateTime" Precision="3" />
+          <Property Name="order_express_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="order_flag" Type="Int32" />
+          <NavigationProperty Name="Order_Goods" Relationship="CarPartsModel.FK_ORDER_GO_RELATIONS_ORDER" FromRole="OrderInfo" ToRole="Order_Goods" />
+          <NavigationProperty Name="UserInfo" Relationship="CarPartsModel.FK_ORDER_RELATIONS_USER" FromRole="OrderInfo" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="Picture">
+          <Key>
+            <PropertyRef Name="picture_id" />
+          </Key>
+          <Property Name="picture_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="goods_id" Type="Int32" />
+          <Property Name="picture_adress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_PICTURE_RELATIONS_GOODS" FromRole="Picture" ToRole="Goods" />
+        </EntityType>
+        <EntityType Name="Reply">
+          <Key>
+            <PropertyRef Name="reply_id" />
+          </Key>
+          <Property Name="reply_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reply_content" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="reply_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="reply_flag" Type="Int32" Nullable="false" />
+          <Property Name="comment_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Comment" Relationship="CarPartsModel.FK_Reply_Comment" FromRole="Reply" ToRole="Comment" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="UserInfo" Relationship="CarPartsModel.FK_Reply_UserInfo" FromRole="Reply" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="ShopCart_Goods">
+          <Key>
+            <PropertyRef Name="goods_id" />
+            <PropertyRef Name="shopCart_id" />
+          </Key>
+          <Property Name="goods_id" Type="Int32" Nullable="false" />
+          <Property Name="shopCart_id" Type="Int32" Nullable="false" />
+          <Property Name="goods_count" Type="Int32" Nullable="false" />
+          <Property Name="goods_AddTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Goods" Relationship="CarPartsModel.FK_SHOPCART_RELATIONS_GOODS" FromRole="ShopCart_Goods" ToRole="Goods" />
+          <NavigationProperty Name="UserInfo" Relationship="CarPartsModel.FK_ShopCart_Goods_UserInfo" FromRole="ShopCart_Goods" ToRole="UserInfo" />
+        </EntityType>
+        <EntityType Name="UserInfo">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_tel" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_sex" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_flag" Type="Int32" />
+          <Property Name="user_head_portrait" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_pwd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_adress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="regist_time" Type="DateTime" Precision="3" />
+          <Property Name="remeber_pwd" Type="Int32" />
+          <NavigationProperty Name="CollectGoods" Relationship="CarPartsModel.FK_CollectGoods_UserInfo" FromRole="UserInfo" ToRole="CollectGoods" />
+          <NavigationProperty Name="Comment" Relationship="CarPartsModel.FK_Comment_UserInfo" FromRole="UserInfo" ToRole="Comment" />
+          <NavigationProperty Name="OrderInfo" Relationship="CarPartsModel.FK_ORDER_RELATIONS_USER" FromRole="UserInfo" ToRole="OrderInfo" />
+          <NavigationProperty Name="ShopCart_Goods" Relationship="CarPartsModel.FK_ShopCart_Goods_UserInfo" FromRole="UserInfo" ToRole="ShopCart_Goods" />
+          <NavigationProperty Name="Reply" Relationship="CarPartsModel.FK_Reply_UserInfo" FromRole="UserInfo" ToRole="Reply" />
+          <Property Name="receiver" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_CollectGoods_Goods">
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="1" />
+          <End Type="CarPartsModel.CollectGoods" Role="CollectGoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="CollectGoods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CollectGoods_UserInfo">
+          <End Type="CarPartsModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="CarPartsModel.CollectGoods" Role="CollectGoods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="CollectGoods">
+              <PropertyRef Name="collect_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_COMMENT_RELATIONS_GOODS">
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_UserInfo">
+          <End Type="CarPartsModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="CarPartsModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_Comment">
+          <End Type="CarPartsModel.Comment" Role="Comment" Multiplicity="1" />
+          <End Type="CarPartsModel.Reply" Role="Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="comment_id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="comment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GOODSTYPE_GO_RELATIONS_GOODS">
+          <End Type="CarPartsModel.GoodsType" Role="GoodsType" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GoodsType">
+              <PropertyRef Name="goods_type_id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="goods_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_GO_RELATIONS_GOODS">
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.Order_Goods" Role="Order_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Order_Goods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PICTURE_RELATIONS_GOODS">
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.Picture" Role="Picture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="Picture">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SHOPCART_RELATIONS_GOODS">
+          <End Type="CarPartsModel.Goods" Role="Goods" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.ShopCart_Goods" Role="ShopCart_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="goods_id" />
+            </Principal>
+            <Dependent Role="ShopCart_Goods">
+              <PropertyRef Name="goods_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_GO_RELATIONS_ORDER">
+          <End Type="CarPartsModel.OrderInfo" Role="OrderInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.Order_Goods" Role="Order_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderInfo">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Order_Goods">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDER_RELATIONS_USER">
+          <End Type="CarPartsModel.UserInfo" Role="UserInfo" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.OrderInfo" Role="OrderInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="OrderInfo">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShopCart_Goods_UserInfo">
+          <End Type="CarPartsModel.UserInfo" Role="UserInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CarPartsModel.ShopCart_Goods" Role="ShopCart_Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="ShopCart_Goods">
+              <PropertyRef Name="shopCart_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reply_UserInfo">
+          <End Type="CarPartsModel.UserInfo" Role="UserInfo" Multiplicity="1" />
+          <End Type="CarPartsModel.Reply" Role="Reply" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Reply">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarPartsModelStoreContainer" CdmEntityContainer="CarEntities">
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="CarPartsModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="admin_pwd" ColumnName="admin_pwd" />
+                <ScalarProperty Name="admin_tel" ColumnName="admin_tel" />
+                <ScalarProperty Name="admin_name" ColumnName="admin_name" />
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CollectGoods">
+            <EntityTypeMapping TypeName="CarPartsModel.CollectGoods">
+              <MappingFragment StoreEntitySet="CollectGoods">
+                <ScalarProperty Name="collect_time" ColumnName="collect_time" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+                <ScalarProperty Name="collect_id" ColumnName="collect_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comment">
+            <EntityTypeMapping TypeName="CarPartsModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="comment_flag" ColumnName="comment_flag" />
+                <ScalarProperty Name="comment_time" ColumnName="comment_time" />
+                <ScalarProperty Name="comment_content" ColumnName="comment_content" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+                <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Goods">
+            <EntityTypeMapping TypeName="CarPartsModel.Goods">
+              <MappingFragment StoreEntitySet="Goods">
+                <ScalarProperty Name="sell_count" ColumnName="sell_count" />
+                <ScalarProperty Name="goods_title" ColumnName="goods_title" />
+                <ScalarProperty Name="goods_addTime" ColumnName="goods_addTime" />
+                <ScalarProperty Name="goods_count" ColumnName="goods_count" />
+                <ScalarProperty Name="goods_info" ColumnName="goods_info" />
+                <ScalarProperty Name="goods_flag" ColumnName="goods_flag" />
+                <ScalarProperty Name="goods_price" ColumnName="goods_price" />
+                <ScalarProperty Name="goods_name" ColumnName="goods_name" />
+                <ScalarProperty Name="goods_type_id" ColumnName="goods_type_id" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoodsType">
+            <EntityTypeMapping TypeName="CarPartsModel.GoodsType">
+              <MappingFragment StoreEntitySet="GoodsType">
+                <ScalarProperty Name="goods_type_addTime" ColumnName="goods_type_addTime" />
+                <ScalarProperty Name="goods_type_name" ColumnName="goods_type_name" />
+                <ScalarProperty Name="goods_type_id" ColumnName="goods_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Goods">
+            <EntityTypeMapping TypeName="CarPartsModel.Order_Goods">
+              <MappingFragment StoreEntitySet="Order_Goods">
+                <ScalarProperty Name="is_commect" ColumnName="is_commect" />
+                <ScalarProperty Name="goods_money" ColumnName="goods_money" />
+                <ScalarProperty Name="goods_count" ColumnName="goods_count" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderInfo">
+            <EntityTypeMapping TypeName="CarPartsModel.OrderInfo">
+              <MappingFragment StoreEntitySet="OrderInfo">
+                <ScalarProperty Name="order_flag" ColumnName="order_flag" />
+                <ScalarProperty Name="order_express_id" ColumnName="order_express_id" />
+                <ScalarProperty Name="order_time" ColumnName="order_time" />
+                <ScalarProperty Name="order_totalMoney" ColumnName="order_totalMoney" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Picture">
+            <EntityTypeMapping TypeName="CarPartsModel.Picture">
+              <MappingFragment StoreEntitySet="Picture">
+                <ScalarProperty Name="picture_adress" ColumnName="picture_adress" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+                <ScalarProperty Name="picture_id" ColumnName="picture_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reply">
+            <EntityTypeMapping TypeName="CarPartsModel.Reply">
+              <MappingFragment StoreEntitySet="Reply">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="comment_id" ColumnName="comment_id" />
+                <ScalarProperty Name="reply_flag" ColumnName="reply_flag" />
+                <ScalarProperty Name="reply_time" ColumnName="reply_time" />
+                <ScalarProperty Name="reply_content" ColumnName="reply_content" />
+                <ScalarProperty Name="reply_id" ColumnName="reply_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShopCart_Goods">
+            <EntityTypeMapping TypeName="CarPartsModel.ShopCart_Goods">
+              <MappingFragment StoreEntitySet="ShopCart_Goods">
+                <ScalarProperty Name="goods_AddTime" ColumnName="goods_AddTime" />
+                <ScalarProperty Name="goods_count" ColumnName="goods_count" />
+                <ScalarProperty Name="shopCart_id" ColumnName="shopCart_id" />
+                <ScalarProperty Name="goods_id" ColumnName="goods_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfo">
+            <EntityTypeMapping TypeName="CarPartsModel.UserInfo">
+              <MappingFragment StoreEntitySet="UserInfo">
+                <ScalarProperty Name="receiver" ColumnName="receiver" />
+                <ScalarProperty Name="remeber_pwd" ColumnName="remeber_pwd" />
+                <ScalarProperty Name="regist_time" ColumnName="regist_time" />
+                <ScalarProperty Name="user_adress" ColumnName="user_adress" />
+                <ScalarProperty Name="user_pwd" ColumnName="user_pwd" />
+                <ScalarProperty Name="user_head_portrait" ColumnName="user_head_portrait" />
+                <ScalarProperty Name="user_flag" ColumnName="user_flag" />
+                <ScalarProperty Name="user_sex" ColumnName="user_sex" />
+                <ScalarProperty Name="user_tel" ColumnName="user_tel" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

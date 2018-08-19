@@ -1,0 +1,65 @@
+﻿@using Model
+@model ViewModel
+
+@{
+    ViewBag.Title = "GoodsType";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mdui-row">
+    <div class="mdui-text-right mdui-m-b-2">
+        <button id="goodsTypeAdd" class="mdui-btn mdui-btn-icon mdui-m-r-1" style="padding: 25px;" mdui-tooltip="{content: '添加'}"><i class="mdui-icon material-icons">add</i></button>
+        <button id="goodsTypeEdit" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '编辑'}"><i class="mdui-icon material-icons">update</i></button>
+        <button id="goodsTypeDelete" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '删除'}"><i class="mdui-icon material-icons">delete</i></button>
+    </div>
+
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table mdui-table-selectable ">
+            <thead>
+                <tr>
+                    <th>类别编号</th>
+                    <th>类别名字</th>
+                    <th>添加时间</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (GoodsType itemType in Model.GoodsTypeList)
+                    {
+                        <tr>
+                            <td class="goodsTypeId">@itemType.goods_type_id</td>
+                            <td>@itemType.goods_type_name</td>
+                            <td>@itemType.goods_type_addTime</td>
+
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@*<div class="mdui-dialog" id="goodsTypeDialog">
+        <div class="mdui-dialog-content">
+            <div class="mdui-dialog-title">Use Google's location service?</div>
+
+            <div class="mdui-container">
+                <div class="mdui-row-xs-6">
+                    <div class="mdui-textfield mdui-textfield-floating-label">
+                        <label class="mdui-textfield-label">类别名</label>
+                        <input class="mdui-textfield-input" type="text"/>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="mdui-dialog-actions">
+            <button class="mdui-btn mdui-ripple">no thanks</button>
+            <button class="mdui-btn mdui-ripple">turn on speeboost</button>
+        </div>
+    </div>*@
+

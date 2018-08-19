@@ -1,0 +1,79 @@
+﻿@using BLL
+@using Common
+@model WebUI.Models.OrderDetailModel
+@{
+    ViewBag.Title = "UserOrderDetail";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="mdui-row mdui-center mdui-p-t-5">
+    <div class="mdui-col-xs-1 mdui-img-rounded mdui-color-theme mdui-p-t-1 mdui-p-b-1 mdui-text-center">
+        <strong>订单信息</strong>
+    </div>
+</div>
+<div class="mdui-row-xs-2 mdui-p-t-3 mdui-p-b-3 mdui-m-r-5 mdui-m-l-5 mdui-shadow-3 mdui-m-t-5 mdui-valign mdui-p-t-3 mdui-p-b-3 mdui-m-r-5 mdui-m-l-5" style="border-radius: 10px;">
+    <div class="mdui-col-xs-11 mdui-center mdui-typo">
+      
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center ">订单编号：</div>
+            <div class="mdui-col mdui-text-center">@Model.OrderInfo.order_id</div>
+        </div>
+        <div class="mdui-divider"></div>
+
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center">下单用户：</div>
+            <div class="mdui-col mdui-text-center">@Model.UserInfo.user_name</div>
+        </div>
+        <div class="mdui-divider"></div>
+
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center ">订单状态：</div>
+            <div class="mdui-col mdui-text-center">@Tool.OrderFlagToString((Tool.OrderFlag) Model.OrderInfo.order_flag)</div>
+        </div>
+        <div class="mdui-divider"></div>
+
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center ">快递编号：</div>
+            <div class="mdui-col mdui-text-center">@Model.OrderInfo.order_express_id</div>
+        </div>
+        <div class="mdui-divider"></div>
+
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center ">下单时间：</div>
+            <div class="mdui-col mdui-text-center">@Model.OrderInfo.order_time</div>
+        </div>
+        <div class="mdui-divider"></div>
+
+
+        <div class="mdui-row mdui-p-t-1  mdui-p-b-1">
+            <div class="mdui-col mdui-text-center ">订单总额：</div>
+            <div class="mdui-col mdui-text-center">@Model.OrderInfo.order_totalMoney<span>元</span></div>
+        </div>
+    </div>
+</div>
+
+<div class="mdui-row mdui-center mdui-p-t-5">
+    <div class="mdui-col-xs-1 mdui-img-rounded mdui-color-theme mdui-p-t-1 mdui-p-b-1 mdui-text-center">
+        <strong>订单商品</strong>
+    </div>
+</div>
+
+<div class="mdui-row-sm-4 mdui-m-t-5 mdui-center mdui-p-t-3 mdui-p-b-3 mdui-p-l-3 mdui-p-r-3 mdui-shadow-3  mdui-grid-list" style="border-radius: 10px;">
+   @{
+       foreach (var item in Model.OrderGoodses)
+       {
+           var goods = item.Goods;
+           <div class="mdui-col mdui-shadow-1 mdui-m-t-4">
+               <div class="mdui-grid-tile">
+                   <a title="@goods.goods_name" href="@Url.Action("GoodsManagerDetail","GoodsManager",new{id=goods.goods_id})"><img src="@Setting.GoodsPicFolder@goods.Picture.FirstOrDefault().picture_adress"/></a>
+                   <div class="mdui-grid-tile-actions">
+                       <div class="mdui-grid-tile-text">
+                           <div class=" mdui-grid-tile-subtitle">￥@goods.goods_price X @item.goods_count</div>
+                           <div class="mdui-grid-tile-title">@item.goods_money<span>元</span></div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       }
+   }
+    
+</div>

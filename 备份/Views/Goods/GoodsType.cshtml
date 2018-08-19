@@ -1,0 +1,71 @@
+﻿@model ViewModel
+@using Common
+@using Model
+@{
+    ViewBag.Title = "GoodsType";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Head
+{
+    <style>
+        /*-----------内容样式---------------*/
+        .newszone {
+            background: #f6f6f6;
+            padding: 25px 0;
+        }
+
+        .tiancho {
+            height: 110px;
+            background: #f6f6f6;
+        }
+
+        .thumbnail:hover {
+            box-shadow: 3px 3px 3px #808080;
+        }
+
+        .caption a {
+            color: black;
+            text-decoration: none;
+        }
+
+            .caption a:hover {
+                color: #fb6018;
+            }
+        /*-----------内容样式---------------*/
+    </style>
+}
+@section Foot{}
+<div id="middle">
+    <div class="newszone">
+        <div class="container">
+            <h3>@ViewData["goodsTypeName"].ToString()</h3>
+        </div>
+        <div class="container">
+            <div class="row">
+               @{
+                   foreach (Goods itemGoods in Model.GoodsList)
+                   {
+                       <div class="col-sm-3">
+                           <div class="thumbnail">
+                               <a href='@Url.Action("GoodsDetail","Goods",new {id=itemGoods.goods_id})'>
+                                   <img src='@Setting.GoodsPicFolder@itemGoods.Picture.FirstOrDefault().picture_adress' />
+                               </a>
+                               <div class="caption">
+                                   <h3 style="text-align: left"><a href='@Url.Action("GoodsDetail","Goods",new {id=itemGoods.goods_id})'>@itemGoods.goods_name</a></h3>
+                                   <h4 style="font-size: 12px;"><a href='@Url.Action("GoodsDetail","Goods",new {id=itemGoods.goods_id})'>@itemGoods.goods_info</a></h4>
+                               </div>
+                           </div>
+                       </div>
+                   }
+               }
+               
+
+            </div>
+        </div>
+    </div>
+    <div class="tiancho">
+    </div>
+</div>
+<!--内容-->
+
+

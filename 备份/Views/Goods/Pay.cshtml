@@ -1,0 +1,317 @@
+﻿@model dynamic
+@using Common
+@using Model
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section Head
+{
+    <style>
+        @@media (max-width: 768px) {
+            #middle .back-cart {
+                margin-left: 0px;
+            }
+
+            #middle .items-price {
+                text-align: left;
+            }
+
+            #middle .items-status {
+                width: 0px;
+            }
+
+            #middle .itmes-total {
+                text-align: left;
+            }
+        }
+
+        #middle {
+            background-color: #f5f5f5;
+            padding-top: 0px;
+            padding-bottom: 60px;
+        }
+
+        .checkout-box {
+            padding: 48px 0 0;
+            background-color: #fff;
+        }
+
+        .address {
+            margin-left: 48px;
+            margin-right: 48px;
+        }
+
+        .address-head {
+            margin-bottom: 20px;
+        }
+
+        .title {
+            float: left;
+            color: #333;
+            font-size: 18px;
+            line-height: 20px;
+            font-weight: normal;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .add-address {
+            margin-left: -18px;
+        }
+
+        .address-item {
+            float: left;
+            margin-left: 17px;
+            margin-bottom: 24px;
+            width: 268px;
+            height: 178px;
+            border: 1px solid #ff6700;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .address-item dl {
+                padding-left: 25px;
+                padding-top: 20px;
+            }
+
+                .address-item dl dd {
+                    width: 200px;
+                }
+
+                    .address-item dl dd a {
+                        text-decoration: none;
+                        color: #808080;
+                    }
+
+        .user-name {
+            margin-bottom: 10px;
+        }
+
+            .user-name a {
+                text-decoration: none;
+                color: #333;
+                font-weight: 500;
+                font-size: 18px;
+            }
+
+        .update-address {
+            width: 50px;
+            margin-left: 210px;
+        }
+
+            .update-address a {
+                text-decoration: none;
+                color: #ff6700;
+            }
+
+        .section {
+            padding: 25px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+            .section span {
+                margin-left: 100px;
+                color: #ff6700;
+            }
+
+                .section span a {
+                    text-decoration: none;
+                    color: #808080;
+                    cursor: pointer;
+                }
+
+                    .section span a i {
+                        position: relative;
+                        left: -5px;
+                        top: -1px;
+                    }
+
+            .section .back-cart {
+                float: right;
+            }
+
+        .section-body .items-cart {
+            padding-bottom: 0px;
+        }
+
+        .goods-items {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            list-style: none;
+        }
+
+            .goods-items li {
+                padding: 10px 0;
+            }
+
+                .goods-items li .items-pic {
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 10px;
+                }
+
+                    .goods-items li .items-pic img {
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                .goods-items li .col {
+                    float: left;
+                    line-height: 30px;
+                    color: #424242;
+                }
+
+                .goods-items li .items-name {
+                    width: 650px;
+                }
+
+                .goods-items li a {
+                    text-decoration: none;
+                    color: #424242;
+                }
+
+                .goods-items li .items-price {
+                    width: 150px;
+                    text-align: center;
+                }
+
+                .goods-items li .items-status {
+                    width: 100px;
+                }
+
+                .goods-items li .itmes-total {
+                    width: 100px;
+                    text-align: center;
+                    color: #ff6700;
+                }
+
+                    .goods-items li .itmes-total a {
+                        color: #ff6700;
+                    }
+
+        .section-btn {
+            padding: 20px 0px;
+        }
+
+            .section-btn .section-bor {
+                float: right;
+                text-decoration: none;
+                color: white;
+                height: 40px;
+                background-color: #ff6700;
+                width: 130px;
+                text-align: center;
+                line-height: 40px;
+            }
+
+            .section-btn .section-money {
+                text-decoration: none;
+                color: #ff6700;
+                line-height: 40px;
+            }
+    </style>
+}
+@section Foot
+{
+    <script>
+        $("a#nowPay").click(function () {
+         
+            
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "/goods/pay",
+                data: {
+                    orderId: $(this).attr("orderId")
+                },
+                success: function (data) {
+                    mdui.alert(data);
+                }
+            });
+        });
+    </script>
+}
+<div id="middle">
+    <div class="container">
+        <h3>提交订单</h3>
+        <div class="checkout-box">
+            <div class="address">
+                <div class="address-head clearfix">
+                    <h3 class="title">收货地址</h3>
+                  
+                </div>
+                <div class="add-address clearfix">
+                    <div class="address-item">
+                        @{
+                            <dl>
+                                <dt class="user-name"><a>@Model.user.user_name</a></dt>
+                                <dd><a>@Model.user.user_tel</a></dd>
+                                <dd>
+
+                                    <a>@Model.user.user_adress</a>
+                                </dd>
+                            </dl>
+                        }
+
+                        <div class="update-address">
+                            <a>修改</a>
+                        </div>
+                    </div>
+                </div>@*<%--收货地址--%>*@
+                <div class="section clearfix">
+                    <h3 class="title">配送方式</h3>
+                    <span>快递配送</span>
+                </div>
+                <div class="section clearfix">
+                    <h3 class="title">配送时间</h3>
+                    <span>不限送货时间：周一至周日</span>
+                </div>
+                <div class="section-body">
+                    <div class="section clearfix items-cart">
+                        <h3 class="title">商品列表</h3>
+                        <span class="back-cart"><a href="/User/ShopCart">返回购物车<i class="mdui-icon material-icons">&#xe315;</i></a></span>
+                    </div>
+                    <div class="goods-body">
+                        <ul class="goods-items">
+
+                            @{
+                                for (int i = 0; i < Model.orderGoods.Count; i++)
+                                {
+                                    //dy.orderGoods = orderGoods;
+                                    //dy.goods = goodsList;
+                                    Order_Goods orderGoods = Model.orderGoods[i];
+                                    Goods goods = Model.goods[i];
+                                    Picture picture = goods.Picture.FirstOrDefault();
+                                    <li class="clearfix">
+                                        <div class="items-pic col">
+                                            <img style="height: 30px; width: 30px;" src="@Setting.GoodsPicFolder@picture.picture_adress" />
+                                        </div>
+                                        <div class="items-name col">
+                                            <a>@goods.goods_name</a>
+                                        </div>
+                                        <div class="items-price col">
+                                            <a><span>@goods.goods_price</span>元x<span>@orderGoods.goods_count</span></a>
+                                        </div>
+                                        <div class="items-status col">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col itmes-total">
+                                            <a>@orderGoods.goods_money<span>元</span></a>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    <div class="section-btn clearfix">
+                        <a class="section-money">应付总额：<span>@Model.orderInfo.order_totalMoney</span>元</a>
+                        <a class="section-bor" id="nowPay" orderId="@Model.orderId">立即付款</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

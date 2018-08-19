@@ -1,0 +1,111 @@
+﻿@model IEnumerable<WebUI.Models.AllOrdersModel>
+@{
+    ViewBag.Title = "AllOrders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Script
+{
+    <script id="staySendOutTemplate" type="text/html">
+        {{each Data}}
+        <tr>
+            <td><a href="/order/detail/{{$value.OrderId}}">{{$value.OrderId}}</a></td>
+            <td>{{$value.UserName}}</td>
+            <td>{{$value.OrderFlag}}</td>
+            <td>{{$value.OrderExpressId}}</td>
+            <td>{{$value.OrderTime}}</td>
+            <td>{{$value.OrderTotalMoney}}</td>
+        </tr>
+        {{/each}}
+    </script>
+    <script>
+        $("button#btnSendOut").click(function () {
+            $("input[name='expressId']").val("");
+            GetSelectFlag();
+        });
+
+        $("button#sureSendOut").click(function() {
+            var expressId = $("input[name='expressId']").val();
+            if (!GetSelectFlag()) {
+                return;
+            }
+            if (expressId === "") {
+                Snackbar("输入不能为空");
+                return;
+            }
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                data: {
+                    orderId: GetSelectRowTds().find("a").get(0).innerHTML,
+                    expressId: expressId
+                },
+                url: "@Url.Action("StaySendOutOrders", "Order")",
+                success: function(data) {
+                    if (data.Msg === "ok") {
+                        Snackbar("发货成功");
+                        $("tbody#staySendOutView").html(template("staySendOutTemplate", data));
+                        mdui.updateTables();
+                        return;
+                    }
+                    Snackbar("发货失败");
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+        });
+    </script>
+}
+<div class="mdui-row">
+    <div class="mdui-text-right mdui-m-b-2">
+        <button id="btnSendOut" mdui-dialog="{target: '#sendOut'}" class="mdui-btn mdui-btn-icon mdui-m-r-1" style="padding: 25px;" mdui-tooltip="{content: '发货'}"><i class="mdui-icon material-icons">send</i></button>
+       
+    </div>
+    
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table mdui-table-selectable ">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>下单用户</th>
+                <th>订单状态</th> 
+                <th>快递编号</th>
+                <th>下单时间</th> 
+                <th>订单总额</th>
+                
+            </tr>
+            </thead>
+            <tbody id="staySendOutView">
+                  @{
+                      foreach (var item in Model)
+                      {
+                          <tr>
+                              <td><a href="@Url.Action("UserOrderDetail","Order",new {orderId=item.OrderId})">@item.OrderId</a></td>
+                              <td>@item.UserName</td>
+                              <td>@item.OrderFlag</td>
+                              <td>@item.OrderExpressId</td>
+                              <td>@item.OrderTime</td>
+                              <td>@item.OrderTotalMoney</td>
+                          </tr>
+                      }
+                  }  
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mdui-dialog" id="sendOut">
+    <div class="mdui-dialog-title">订单发货</div>
+    <div class="mdui-dialog-content">
+        <div class="mdui-textfield mdui-textfield-floating-label">
+            <label class="mdui-textfield-label">输入快递编号</label>
+            <input class="mdui-textfield-input" name="expressId" type="text" pattern="^\d+$" required/>
+            <div class="mdui-textfield-error">只能输入数字,且不能为空</div>
+        </div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+        <button class="mdui-btn mdui-ripple" mdui-dialog-confirm id="sureSendOut">确认</button>
+    </div>
+</div>
+

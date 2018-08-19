@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="937bfd8809524f7b8acfdcea23c0d292" Name="Diagram1" ZoomLevel="91">
+        <EntityTypeShape EntityType="CarPartsModel.Admin" Width="1.5" PointX="0.5" PointY="4.5" />
+        <EntityTypeShape EntityType="CarPartsModel.CollectGoods" Width="1.5" PointX="9.25" PointY="9.375" />
+        <EntityTypeShape EntityType="CarPartsModel.Comment" Width="1.5" PointX="10" PointY="2.25" />
+        <EntityTypeShape EntityType="CarPartsModel.Goods" Width="1.5" PointX="7.25" PointY="2.125" />
+        <EntityTypeShape EntityType="CarPartsModel.GoodsType" Width="1.5" PointX="0.5" PointY="7.875" />
+        <EntityTypeShape EntityType="CarPartsModel.Order_Goods" Width="1.5" PointX="6" PointY="6.75" />
+        <EntityTypeShape EntityType="CarPartsModel.OrderInfo" Width="1.5" PointX="3.125" PointY="6.625" />
+        <EntityTypeShape EntityType="CarPartsModel.Picture" Width="1.5" PointX="3.125" PointY="10.5" />
+        <EntityTypeShape EntityType="CarPartsModel.Reply" Width="1.5" PointX="11.375" PointY="5.25" />
+        <EntityTypeShape EntityType="CarPartsModel.ShopCart_Goods" Width="1.5" PointX="5" PointY="3.25" />
+        <EntityTypeShape EntityType="CarPartsModel.UserInfo" Width="1.5" PointX="3" PointY="2" />
+        <AssociationConnector Association="CarPartsModel.FK_CollectGoods_Goods" />
+        <AssociationConnector Association="CarPartsModel.FK_CollectGoods_UserInfo" />
+        <AssociationConnector Association="CarPartsModel.FK_COMMENT_RELATIONS_GOODS" />
+        <AssociationConnector Association="CarPartsModel.FK_Comment_UserInfo" />
+        <AssociationConnector Association="CarPartsModel.FK_Reply_Comment" />
+        <AssociationConnector Association="CarPartsModel.FK_GOODSTYPE_GO_RELATIONS_GOODS" />
+        <AssociationConnector Association="CarPartsModel.FK_ORDER_GO_RELATIONS_GOODS" />
+        <AssociationConnector Association="CarPartsModel.FK_PICTURE_RELATIONS_GOODS" />
+        <AssociationConnector Association="CarPartsModel.FK_SHOPCART_RELATIONS_GOODS" />
+        <AssociationConnector Association="CarPartsModel.FK_ORDER_GO_RELATIONS_ORDER" />
+        <AssociationConnector Association="CarPartsModel.FK_ORDER_RELATIONS_USER" />
+        <AssociationConnector Association="CarPartsModel.FK_ShopCart_Goods_UserInfo" />
+        <AssociationConnector Association="CarPartsModel.FK_Reply_UserInfo" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

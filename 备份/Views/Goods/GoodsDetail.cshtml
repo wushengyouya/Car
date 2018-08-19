@@ -1,0 +1,224 @@
+﻿@using Common
+@using Model
+@using WebUI.Models
+@model WebUI.Models.GoodsDetailModel
+@{
+    ViewBag.Title = "GoodsDetail";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section Head
+{
+    <style>
+        .right-text h2 {
+            font-size: 20px;
+            font-weight: normal;
+            color: #32343a;
+            width: 100%;
+        }
+
+        .right-text .miaoshu {
+            padding: 15px 0;
+            line-height: 25px;
+            min-height: 200px;
+        }
+
+        .gongneng a {
+            color: #32343a;
+            text-decoration: none;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .price {
+            font-size: 18px;
+            color: #fb6018;
+            padding: 15px 0;
+        }
+
+        .tiancho {
+            height: 160px;
+        }
+        .lyphicon-heart-empty {
+            color: #fb6018;
+        }
+    </style>
+}
+@section Foot
+{
+    <script>
+        $(function () {
+            var id = @Model.Goods.goods_id;
+            $("#addShopCart").click(function () {
+
+                myAjax("shopcart");
+            });
+            $("#collectGoods").click(function () {
+
+                myAjax("collect");
+            });
+
+
+            function myAjax(a) {
+                $.ajax({
+                    method: "post",
+                    url: "/Goods/GoodsDetail",
+                    dataType: "json",
+                    data: {
+                        action:a,
+                        id:id
+                    },
+                    success: function (data) {
+                        if (data === "ok") {
+                            $("#collectGoods span").removeClass("glyphicon-star-empty").addClass("glyphicon-star");
+                            return;
+                        }
+                        else if (data === "no") {
+                            $("#collectGoods span").removeClass("glyphicon-star").addClass("glyphicon-star-empty");
+                        } else {
+                            mdui.alert(data);
+                        }
+                      
+
+                    }
+
+                });
+            }
+        });
+
+
+
+    </script>
+}
+<div id="middle">
+    <div class="container mdui-m-t-3">
+        <h3>商品详情</h3>
+    </div>
+    <div class="container mdui-m-t-5">
+        <div class="row">
+
+            <div class="left-pic">
+                <div class="col-sm-5">
+
+                    <img src='@Setting.GoodsPicFolder@Model.PictureAdress' class="img-responsive" />
+                </div>
+            </div>
+            <div class="right-text">
+                <div class="col-sm-7">
+                    <h2>
+                        @Model.Goods.goods_name&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<a href="@Url.Action("GoodsType","Goods",new {id=Model.GoodsType.goods_type_id})">@Model.GoodsType.goods_type_name</a>&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
+                        @Model.Goods.goods_title
+                    </h2>
+                    <div class="miaoshu">
+                        @Model.Goods.goods_info
+                    </div>
+                    <div class="price">
+                        <h3>￥@Model.Goods.goods_price</h3>
+                    </div>
+                    <div class="gongneng">
+                        @{
+                            if (Model.UserIsCollectGoods)
+                            {
+
+                                <button id="collectGoods" class="btn mdui-color-deep-orange btn-sm  mdui-text-color-white-text"><span class="glyphicon glyphicon-star"> 收藏</span></button>
+                            }
+                            else
+                            {
+                                <button id="collectGoods" class="btn mdui-color-deep-orange btn-sm  mdui-text-color-white-text"><span class="glyphicon glyphicon-star-empty"> 收藏</span></button>
+                            }
+                        }
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="addShopCart" class="btn mdui-color-deep-orange btn-sm  mdui-text-color-white-text"><span class="glyphicon glyphicon-shopping-cart"> 加入购物车</span></button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="tiancho mdui-m-t-5" style="margin-bottom: 600px;">
+    <div class="container">
+        <div class="row  ">
+            <div class="col-sm-12 mdui-color-deep-orange mdui-text-color-white-text mdui-p-t-1 mdui-p-b-1">商品评论</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <h4 class="mdui-m-t-4">热门评论</h4>
+                @{
+                    foreach (CommentModel commentModel in Model.Comments)
+                    {
+                        <div class="row mdui-shadow-1 mdui-m-t-3 mdui-m-b-5 mdui-p-b-4">
+                            <ul class="mdui-list">
+                                <li class="mdui-list-item">
+                                    <div class="mdui-list-item-avatar"><img src="@Setting.HeadPicFolder@commentModel.UserInfo.user_head_portrait" /></div>
+                                    <div class="mdui-list-item-content">
+                                        <div class="mdui-list-item-title">@commentModel.UserInfo.user_name<span class="mdui-float-right">111</span><span class="mdui-m-l-2 mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">thumb_up</i></span></div>
+                                        <div class="mdui-list-item-text mdui-list-item-one-line"><span class="mdui-text-color-theme-text">@commentModel.Comment.comment_content</span><span class="mdui-float-right">@DateTimeExtensions.FriendlyDate(commentModel.Comment.comment_time)</span></div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <ul class="mdui-list col-sm-11 mdui-float-right">
+                                        @{
+                                            foreach (var itemReply in commentModel.Replies)
+                                            {
+                                                <li class="mdui-list-item">
+                                                    <div class="mdui-list-item-avatar"><img src="@Setting.HeadPicFolder@itemReply.UserInfo.user_head_portrait" /></div>
+                                                    <div class="mdui-list-item-content">
+                                                        <div class="mdui-list-item-title">@itemReply.UserInfo.user_name</div>
+                                                        <div class="mdui-list-item-text mdui-list-item-one-line"><span class="mdui-text-color-theme-text">@itemReply.reply_content</span><span class="mdui-float-right">@DateTimeExtensions.FriendlyDate(itemReply.reply_time)</span></div>
+                                                    </div>
+                                                </li>
+                                                <li class="mdui-divider-inset mdui-m-y-0"></li>
+
+
+                                            }
+                                        }
+
+
+
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                            <div class="row mdui-m-t-5">
+                                <div style="margin-right: 100px; margin-left: 100px;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="回复楼主">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">回复</button>
+                                        </span>
+                                    </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                            </div>
+
+
+
+                        </div>@*一条评论*@
+
+                    }
+                }
+            </div>
+            <div class="col-sm-4">
+                <h4 class="mdui-m-t-4">最新评论</h4>
+                <ul class="mdui-list">
+
+                    @{
+                        foreach (var itemModel in Model.CommentsOrderByTime)
+                        {
+                            <li class="mdui-list-item">
+                                <div class="mdui-list-item-avatar"><img src="@Setting.HeadPicFolder@itemModel.UserInfo.user_head_portrait" /></div>
+                                <div class="mdui-list-item-content">
+                                    <div class="mdui-list-item-title">@itemModel.UserInfo.user_name</div>
+                                    <div class="mdui-list-item-text mdui-list-item-one-line"><span class="mdui-text-color-theme-text">@itemModel.comment_content</span><span class="mdui-float-right">@DateTimeExtensions.FriendlyDate(itemModel.comment_time)</span></div>
+                                </div>
+                            </li>
+                            <li class="mdui-divider-inset mdui-m-y-0"></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

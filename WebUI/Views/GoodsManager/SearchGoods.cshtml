@@ -1,0 +1,313 @@
+﻿@using Model
+@model IEnumerable<Model.Goods>
+
+@{
+    ViewBag.Title = "SearchGoods";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Script
+{
+    <script>
+        $('input#searchGoods').on('keypress',
+            function (event) {
+                if (event.keyCode === 13) {
+                    window.location.href = "@Url.Action("SearchGoods","GoodsManager")" + "?keyword=" + $(this).val();
+                }
+
+            });
+        $("select#goodsSearchByType").change(function () {
+            window.location.href = "@Url.Action("SearchGoodsByType","GoodsManager")" + "?keyword=" + $("#goodsSearchByType option:selected").text();
+
+        });
+    </script>
+}
+
+<div class="mdui-row-xs-12">
+    <div class="mdui-float-left">
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
+            <input id="searchGoods" class="mdui-textfield-input" type="text" placeholder="输入商品名字或商品标题" />
+
+
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
+        </div>
+
+    </div>
+    <div class="mdui-float-right mdui-m-b-2">
+        <select id="goodsSearchByType" class="mdui-select" mdui-select="{position: 'bottom'}">
+            @{
+                foreach (GoodsType goodsType in (List<GoodsType>) ViewData["types"])
+                {
+                    if (ViewBag.currentType.Equals(goodsType.goods_type_name))
+                    {
+                        <option value="@goodsType.goods_type_id" selected="selected">@goodsType.goods_type_name</option>
+                        continue;
+                    }
+                    <option value="@goodsType.goods_type_id">@goodsType.goods_type_name</option>
+                }
+            }
+        </select>
+        <button id="goodsEdit" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '编辑'}"><i class="mdui-icon material-icons">update</i></button>
+        <button id="goodsDelete" class="mdui-btn mdui-btn-icon" style="padding: 25px;" mdui-tooltip="{content: '删除'}"><i class="mdui-icon material-icons">delete</i></button>
+    </div>
+
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table mdui-table-selectable ">
+            <thead>
+            <tr>
+                <th>商品编号</th>
+                <th>商品类别</th>
+                <th>商品名字</th>
+                <th>商品价格</th>
+                <th>商品状态</th>
+                <th>商品介绍</th>
+                <th>商品数量</th>
+                <th>添加时间</th>
+                <th>商品标题</th>
+            </tr>
+            </thead>
+            <tbody class="mdui-typo">
+            @{
+                foreach (Goods itemGoods in Model)
+                {
+                    <tr>
+                        <td class="goodsId">@itemGoods.goods_id</td>
+                        <td>@itemGoods.GoodsType.goods_type_name</td>
+                        <td class="mdui-text-truncate" style="max-width: 150px;" title="@itemGoods.goods_name"><a href="@Url.Action("GoodsManagerDetail","GoodsManager",new {id=itemGoods.goods_id})" mdui-tooltip="{content: '商品详情'}">@itemGoods.goods_name</a></td>
+                        <td>@itemGoods.goods_price</td>
+                        <td>@itemGoods.goods_flag</td>
+                        <td class="mdui-text-truncate" style="max-width: 100px;" title="@itemGoods.goods_info">@itemGoods.goods_info</td>
+                        <td>@itemGoods.goods_count</td>
+                        <td class="mdui-text-truncate" style="max-width: 176px;">@itemGoods.goods_addTime</td>
+                        <td class="mdui-text-truncate" style="max-width: 123px;" title="@itemGoods.goods_title">@itemGoods.goods_title</td>
+                    </tr>
+                }
+
+            }
+            </tbody>
+        </table>
+    </div>
+    @{
+        if (!Model.Any())
+        {
+            <h2 class="mdui-text-color-theme-accent">"当前搜索无商品"</h2>
+        }
+    }
+</div>
+
+
+@*编辑商品*@
+<div class="mdui-dialog" id="editGoodsDialog">
+    <div class="mdui-dialog-title">编辑商品</div>
+    <div class="mdui-dialog-content">
+        请输入商品信息
+        <div class="mdui-container">
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品类别</span>
+                </div>
+
+                <div class="mdui-col">
+                    @*商品类别*@
+                    <select id="goodsTypeSelect" class="mdui-select">
+                        @{
+                            foreach (GoodsType goodsType in (List<GoodsType>)ViewData["types"])
+                            {
+                                <option value="@goodsType.goods_type_id">@goodsType.goods_type_name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            </div>
+
+            
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品名称</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" name="goodsName" />
+                    </div>
+                </div>
+            </div>
+           
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品价格</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" name="goodsPrice" />
+                    </div>
+                </div>
+            </div>
+
+           
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品标题</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" name="goodsTitle" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品状态</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" name="goodsFlag" />
+                    </div>
+                </div>
+            </div>
+           
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品介绍</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <textarea class="mdui-textfield-input" placeholder="详细介绍" name="goodsInfo"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mdui-row-xs-2 mdui-valign">
+                <div class="mdui-col mdui-text-center">
+                    <span class="mdui-text-color-theme-accent mdui-typo-title">商品数量</span>
+                </div>
+                <div class="mdui-col">
+                    <div class="mdui-textfield">
+                        <input class="mdui-textfield-input" type="text" name="goodsCount" />
+                    </div>
+                </div>
+            </div>
+          
+
+
+           
+        </div>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+        <button class="mdui-btn mdui-ripple" id="editGoodsSure" mdui-dialog-confirm>确定</button>
+    </div>
+</div>
+<script>
+    $(function () {
+        //mdui.mutation();
+        $("#addGoodsSure").click(function () {
+            var goodsType = $("#addGoodsDialog select").val();
+            var goodsName = $("#addGoodsDialog input[name='goodsName']").val();
+            var goodsTitle = $("#addGoodsDialog input[name='goodsTitle']").val();
+            var goodsPrice = $("#addGoodsDialog input[name='goodsPrice']").val();
+            var goodsFlag = $("#addGoodsDialog input[name='goodsFlag']").val();
+            var goodsCount = $("#addGoodsDialog input[name='goodsCount']").val();
+            var goodsInfo = $("#addGoodsDialog :input[name='goodsInfo']").val();
+
+            var jsonData = {
+                action: "add",
+                goods_type_id: goodsType,
+                goods_name: goodsName,
+                goods_price: goodsPrice,
+                goods_flag: goodsFlag,
+                goods_count: goodsCount,
+                goods_info: goodsInfo,
+                goods_title: goodsTitle
+            };
+
+            if (goodsName !== "" && goodsCount !== "" && goodsFlag !== "" && goodsInfo !== "" && goodsPrice !== "") {
+                AddEntity("@Url.Action("AllGoods","GoodsManager")", jsonData, GoodsLoadData, "goodsId", true);
+                InitGoodsInput("", "", "", "", "");
+            } else {
+                alert("不能为空");
+            }
+           
+
+
+        });
+
+        $("#editGoodsSure").click(function () {
+            var goodsId = GetSelectRowTds().get(1).innerText;
+            var goodsName = $("#editGoodsDialog input[name='goodsName']").val();
+            var goodsPrice = $("#editGoodsDialog input[name='goodsPrice']").val();
+            var goodsFlag = $("#editGoodsDialog input[name='goodsFlag']").val();
+            var goodsCount = $("#editGoodsDialog input[name='goodsCount']").val();
+            var goodsInfo = $("#editGoodsDialog :input[name='goodsInfo']").val();
+            var goodsTitle = $("#editGoodsDialog input[name='goodsTitle']").val();
+            var goodsType = $("#editGoodsDialog #goodsTypeSelect").val();
+
+            var jsonData = {
+                action: "edit",
+                goods_id: goodsId,
+                goods_type_id: goodsType,
+                goods_name: goodsName,
+                goods_price: goodsPrice,
+                goods_flag: goodsFlag,
+                goods_info: goodsInfo,
+                goods_count: goodsCount,
+                goods_title: goodsTitle
+            };
+
+            EditEntity("@Url.Action("AllGoods", "GoodsManager")", GoodsLoadData, "goodsId", jsonData, true);
+            InitGoodsInput("", "", "", "", "");
+        });
+
+        var selectOption = null;//当前选择的项
+        $("#goodsEdit").click(function () {
+            if (GetSelectRow().length === 0) {
+                Snackbar("未选择行要编辑的类别");
+                return;
+            }
+            if (GetSelectRow().length > 1) {
+                Snackbar("编辑只能择一行");
+                return;
+            }
+
+            new mdui.Dialog("#editGoodsDialog").open();
+            $("#goodsTypeSelect").removeAttr("mdui-select");
+
+            // mdui.mutation();
+            var $td = GetSelectRowTds();
+            InitGoodsInput($td.get(3).innerText,
+                $td.get(4).innerText,
+                $td.get(5).innerText,
+                $td.get(6).innerText,
+                $td.get(7).innerText,
+                $td.get(9).innerText);
+            //alert($("#goodsTypeSelect option").length);
+            $("#goodsTypeSelect option:contains("+selectOption+")").removeAttr("selected");
+            selectOption = $td.get(2).innerText;
+            //alert($("#goodsTypeSelect option:contains("+selectOption+")").length);
+            $("#goodsTypeSelect option:contains("+selectOption+")").attr("selected", "");
+           // $("div.mdui-select span").remove();
+            // $("#goodsTypeSelect").attr("mdui-select", "{position: 'bottom'}");
+            //mdui.mutation();
+
+        });
+
+
+    });
+
+    //初始化文本框
+    function InitGoodsInput(goodsName, goodsPrice, goodsFlag, goodsInfo, goodsCount, goodsTitle) {
+        $("input[name='goodsName']").val(goodsName);
+        $("input[name='goodsPrice']").val(goodsPrice);
+        $("input[name='goodsFlag']").val(goodsFlag);
+
+        $("input[name='goodsCount']").val(goodsCount);
+        $(":input[name='goodsInfo']").val(goodsInfo);
+        $("input[name='goodsTitle']").val(goodsTitle);
+    }
+</script>

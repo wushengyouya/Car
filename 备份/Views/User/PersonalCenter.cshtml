@@ -1,0 +1,359 @@
+﻿@using Common
+@model Model.UserInfo
+@{
+    ViewBag.Title = "PersonalCenter";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Head
+{
+    <style>
+        #middle {
+            background: #f5f5f5;
+        }
+
+        .box {
+            background: #fff;
+            padding: 34px 34px 0;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            min-height: 400px;
+        }
+
+        .main_left {
+            float: left;
+            width: 300px;
+        }
+
+        .main_right {
+            float: right;
+            width: 690px;
+        }
+
+        .framedatabox {
+            padding-top: 15px;
+        }
+
+            .framedatabox h3 {
+                font-size: 16px;
+                color: #333;
+                margin-top: 0px;
+                float: left;
+                margin-bottom: 0px;
+                position: relative;
+                top: 10px;
+            }
+
+            .framedatabox .fdata {
+                padding-left: 20px;
+                line-height: 40px;
+                border-bottom: 2px solid #e6e6e6;
+                overflow: hidden;
+            }
+
+            .framedatabox a {
+                float: right;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .fdata p {
+            margin-bottom: 0px;
+            font-size: 14px;
+            color: #808080;
+        }
+
+        .mdui-radio-icon {
+            left: 14px;
+        }
+
+        .mdui-radio {
+            left: -18px;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
+
+        #set-address {
+            margin-top: 10px;
+        }
+
+        #distpicker1 {
+            margin-top: 5px;
+        }
+    </style>
+}
+@section Foot
+{
+    <script>
+        function Datetime() {
+
+
+            $('#datetimepicker1').datetimepicker({
+                language: 'zh-CN',//显示中文
+                format: 'yyyy-mm-dd',//显示格式
+                minView: "month",//设置只显示到月份
+                initialDate: new Date(),
+                autoclose: true,//选中自动关闭
+                todayBtn: true,//显示今日按钮
+                locale: moment.locale('zh-cn')
+            });
+            //默认获取当前日期
+            var today = new Date();
+            var nowdate = (today.getFullYear()) + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+            //对日期格式进行处理
+            var date = new Date(nowdate);
+            var mon = date.getMonth() + 1;
+            var day = date.getDate();
+            var mydate = date.getFullYear() + "-" + (mon < 10 ? "0" + mon : mon) + "-" + (day < 10 ? "0" + day : day);
+            document.getElementById("nowdate").value = mydate;
+        }
+
+        $(function () {
+            //initFileInput("file-upload", "/Admin/GoodsDetail");
+
+        });
+
+    </script>
+}
+<div id="middle">
+    <div class="container">
+        <h3>个人中心</h3>
+        <div class="box">
+            <div class="content clearfix table-responsive">
+                <table class="table">
+                    <tr>
+                        <td>
+                           
+                            <div class="main_left mdui-m-b-5">
+                                @{
+                                    if (string.IsNullOrEmpty(Model.user_head_portrait))
+                                    {
+                                        <img style="height: 300px; width: 300px;" src="~/Content/IMG/46557187_p0.jpg" />
+                                    }
+                                    else
+                                    {
+                                        <img style="height: 300px; width: 300px;" src="@Setting.HeadPicFolder@Model.user_head_portrait" />
+                                    }
+                                }
+
+                            </div>
+                            <div class="mdui-m-t-5">
+                                <form method="post" action="@Url.Action("PersonalCenter","User")" enctype="multipart/form-data">
+                                    <div class="mdui-row mdui-m-t-5">
+                                        <div class="mdui-col  mdui-m-t-5"> <input type="file" name="file" /></div>
+                                        <div class="mdui-col mdui-m-t-5"><input type="submit" class="mdui-btn mdui-ripple mdui-center " value="上传头像"></div>
+
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="main_right">
+                                <div class="framedatabox">
+                                    <div class="fdata">
+                                        <h3>基础资料</h3>
+                                        <a data-toggle="modal" data-target="#editprofile" role="button" onclick="Datetime()">编辑</a>
+                                    </div>
+                                    <div class="fdata userName">
+                                        <p>
+                                            <span>用户名：</span>
+                                            <span>@Model.user_name</span>
+                                        </p>
+                                    </div>
+                                    <div class="fdata brithday">
+                                        <p>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;生日：</span>
+                                            <span>1999/09/06</span>
+                                        </p>
+                                    </div>
+                                    <div class="fdata sex">
+                                        <p>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;性别：</span>
+                                            <span>@Model.user_sex</span>
+                                        </p>
+                                    </div>
+                                    <div class="fdata address">
+                                        <p>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;地址：</span>
+                                            <span>@Model.user_adress</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="framedatabox">
+                                    <div class="fdata">
+                                        <h3>安全设置</h3>
+                                        <a>&nbsp</a>
+                                    </div>
+                                    <div class="fdata phone">
+                                        <p>
+                                            <span>手机号：</span>
+                                            <span>@Model.user_tel</span>
+                                            <a data-toggle="modal" data-target="#phonenum" role="button">修改</a>
+                                        </p>
+                                    </div>
+                                    <div class="fdata email">
+                                        <p>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：</span>
+                                            <span>@Model.user_email</span>
+                                            <a data-toggle="modal" data-target="#email" role="button">修改</a>
+                                        </p>
+                                    </div>
+                                    <div class="fdata password">
+                                        <p>
+                                            <span>&nbsp;&nbsp;&nbsp;&nbsp;密码：</span>
+                                            <span>@Model.user_pwd</span>
+                                            <a data-toggle="modal" data-target="#password" role="button">修改</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@*<%--弹出框--%>
+    <%--修改手机号码--%>*@
+<div class="modal fade" id="phonenum" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="set-phone">修改手机号码</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">请输入手机号码</label>
+                        <input type="text" class="form-control" id="update-phone">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<%--修改绑定邮箱--%>*@
+<div class="modal fade" id="email" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="set-email">修改绑定邮箱</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">请输入邮箱地址</label>
+                        <input type="text" class="form-control" id="update-email">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<%--修改密码--%>*@
+<div class="modal fade" id="password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="set-password">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">请输入原始密码</label>
+                        <input type="password" class="form-control" id="dreambox">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">请输入新密码</label>
+                        <input type="password" class="form-control" id="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">确认新密码</label>
+                        <input type="password" class="form-control" id="confirm-password">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* <%--基本信息--%>*@
+<div class="modal fade" id="editprofile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="set-editprofile">修改个人资料</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">用户名</label>
+                        <input type="text" class="form-control" id="set-username">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">出生日期</label>
+                        <a class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" id='nowdate' style="width: 150px; height: 30px;" />
+                            <span class="input-group-addon" style="float: left; width: 50px; height: 30px;">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">性别：</label>
+
+                        <label class="mdui-radio">
+                            <input type="radio" name="group1" checked />
+                            <i class="mdui-radio-icon"></i>男
+                        </label>
+
+                        <label class="mdui-radio">
+                            <input type="radio" name="group1" />
+                            <i class="mdui-radio-icon"></i>女
+                        </label>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">地址</label>
+                        @*<%--地址插件--%>*@
+                        <div data-toggle="distpicker" id="distpicker1">
+                            <select data-province="湖南省"></select>
+                            <select data-city="长沙市"></select>
+                            <select data-district="长沙县"></select>
+                        </div>
+                        <input type="text" class="form-control" id="set-address"> @*<%--详细地址信息--%>*@
+                        @*<%--地址JS--%>*@
+                        <script src="CSS/main.js"></script>
+                        <script src="CSS/distpicker.data.min.js"></script>
+                        <script src="CSS/distpicker.min.js"></script>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+

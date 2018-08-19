@@ -1,0 +1,535 @@
+﻿@model Model.UserInfo
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+  
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <title>登录界面</title>
+    <style>
+        * {
+            list-style: none;
+        }
+        /*-------------自适应处理-------------*/
+        @@media (max-width: 768px) {
+            #right {
+                width: 100%;
+            }
+
+            #left {
+                display: none;
+            }
+        }
+
+        @@media (min-width: 768px) {
+            #right {
+                width: 60%;
+            }
+
+            #left {
+                display: block;
+                width: 40%;
+            }
+        }
+
+        @@media (min-width: 992px) {
+            #right {
+                width: 40%;
+            }
+
+            #left {
+                width: 60%;
+                display: block;
+            }
+        }
+
+        @@media (min-width: 1200px) {
+            #left {
+                width: 68%;
+                display: block;
+            }
+
+            #right {
+                width: 32%;
+            }
+        }
+        /*-------------自适应处理-------------*/
+        .login-cont {
+            margin-left: 20px;
+            margin-right: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 20px;
+        }
+        /*-------------包裹层-------------*/
+        .clase {
+            height: 100vh;
+            overflow: hidden;
+        }
+        /*-------------包裹层-------------*/
+        /*-------------左侧-------------*/
+        .login-wrapper {
+            height: 100%;
+            width: 68%;
+            float: left;
+        }
+
+            .login-wrapper img {
+                height: 100%;
+            }
+        /*-------------左侧-------------*/
+        /*-------------右侧-------------*/
+        .login-right {
+            float: right;
+            width: 32%;
+        }
+
+        /*.pc-logo {
+          width: 200px;
+          height: 80px;
+        }*/
+
+        .login-btn {
+            overflow: hidden;
+            padding-left: 0px;
+            margin-bottom: 0px;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .login-btn li {
+                width: 90px;
+                height: 50px;
+                float: left;
+                text-align: center;
+                line-height: 50px;
+            }
+
+                .login-btn li a {
+                    color: #b2aaaa;
+                }
+
+        .login-content {
+            padding: 15px;
+        }
+
+        .register {
+            display: none;
+        }
+
+        .signin-from {
+            padding-top: 15px;
+        }
+
+        .form-group-default {
+            background-color: #fff;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 5px;
+            padding: 0 20px;
+            padding-top: 11px;
+            padding-bottom: 8px;
+            overflow: hidden;
+            transition: background-color 0.2s ease;
+        }
+
+        div.form-group-default:focus-within {
+            border: 2px solid #6495ed;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                font-family: 'Montserrat';
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+
+        .form-group-default label {
+            margin: 0;
+            display: block;
+            opacity: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        label {
+            line-height: 20px;
+        }
+
+        .form-group .form-control:last-child {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .form-group-default .form-control {
+            border: none;
+            height: 25px;
+            min-height: 25px;
+            padding: 0;
+            margin-top: -4px;
+            background: none;
+        }
+
+        .form-control {
+            font-family: Arial, sans-serif;
+            -webkit-appearance: none;
+            color: #2c2c2c;
+            outline: 0;
+            line-height: normal;
+            font-size: 12px;
+            font-weight: normal;
+            vertical-align: middle;
+            -webkit-border-radius: 2px;
+            box-shadow: none;
+        }
+
+            .form-control:focus {
+                box-shadow: none;
+                font-weight: 700;
+            }
+
+        .no-padding {
+            padding: 0;
+        }
+
+        .checkbox {
+            margin-bottom: 10px;
+            margin-top: 10px;
+            padding-left: 0px;
+            font-size: 13px;
+        }
+
+        #checkbox1 {
+            margin-left: 20px;
+        }
+
+        .jizhu {
+            margin-left: 20px;
+        }
+
+
+        .checkbox p {
+            text-align: right;
+            margin-right: 8px;
+            line-height: normal;
+        }
+
+            .checkbox p a {
+                color: #171616;
+            }
+
+                .checkbox p a:hover {
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+
+        .m-t-10 {
+            margin-top: 10px;
+            margin-right: 5px;
+            min-width: 120px;
+        }
+
+        .form-group-default.required:after {
+            color: #f55753;
+            content: "*";
+            font-family: arial;
+            font-size: 20px;
+            position: absolute;
+            right: 12px;
+            top: 6px;
+        }
+
+        .p-t-10 {
+            padding-top: 10px;
+        }
+
+        .log:hover {
+            cursor: pointer;
+        }
+
+        .log a:hover {
+            text-decoration: none;
+        }
+
+        .reg a:hover {
+            text-decoration: none;
+        }
+
+        .reg:hover {
+            cursor: pointer;
+        }
+
+        /*-------------右侧-------------*/
+    </style>
+    <script>
+        $(function () { //改变背景颜色
+            $('.log').click(function () {
+                $('.log').css('background-Color', '#e6e6e6');
+                $('.reg').css('background-Color', 'white');
+                $('.signin').attr("style", "display:block;");
+                $('.register').attr("style", "display:none;");
+            });
+            $('.reg').click(function () {
+                $('.reg').css('background-Color', '#e6e6e6');
+                $('.log').css('background-Color', 'white');
+                $('.signin').attr("style", "display:none;");
+                $('.register').attr("style", "display:block;");
+            });
+        });
+    </script>
+
+
+</head>
+<body>
+    <div>
+        <div class="fixed-headerdiv clase">
+
+            <!--背景图-->
+            <div class="login-wrapper" id="left">
+                <img src="https://wx4.sinaimg.cn/mw690/005GFM2Xgy1fs4om9x0wqj30sg0jstkt.jpg" class="img-responsive" />
+                @*<img src="~/Content/images/background.jpg" class="img-responsive" />*@
+            </div>
+
+            <div class="login-right" id="right">
+                <div class="login-cont">
+                    <div class="pc-logo">
+                        <img src="https://wx1.sinaimg.cn/mw1024/005GFM2Xgy1fs4p42tgfsj30go02ewej.jpg" class="img-responsive" style="" />
+                    </div>
+                    <div class="login-from">
+                        <p class="p-t-10"></p>
+                        <ul class="login-btn">
+                            <li style="background-color: #e6e6e6" class="log"><a style="color: #4682b4">登录</a></li>
+                            <li class="reg"><a style="color: #4682b4">注册</a></li>
+                        </ul>
+                    </div>
+
+
+                    <!--登录DIV-->
+
+                    <div class="login-content">
+                        <form>
+                            <div class="signin">
+
+                                <div class="form-group form-group-default">
+                                    <!--用户名-->
+                                    <div class="controls">
+                                        <input autocomplete="off" required class="form-control" id="userName" name="name" placeholder="请输入用户名" type="text" value="@Model.user_name" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-default">
+                                    <!--密码-->
+                                    <div class="controls">
+                                        <input autocomplete="off" required class="form-control" id="password" name="pwd" placeholder="请输入密码" type="password" value="@Model.user_pwd" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group form-group-default">
+                                    <div class="controls">
+                                        @*验证码*@
+                                        <input autocomplete="off" required class="form-control" id="inputValidateCode" name="validateCode" placeholder="请输入验证码" type="text" pattern="^\d{4}$" />
+                                    </div>
+
+                                </div>
+                                <img src="/User/ValidateCode" title="看不清，换一张" id="validateCode" />
+
+                                <div class="row">
+                                    <div class="col-md-6 no-padding">
+                                        <div class="checkbox ">
+                                            @Html.CheckBox("checkbox1", Model.remeber_pwd == 1)
+                                            <label for="checkbox1" class="jizhu">记住密码？</label>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-md-6 no-padding">
+                                            <div class="checkbox ">
+                                                <p><a>忘记密码？</a></p>
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <!--记住密码-->
+                                <input class="btn btn-primary btn-block btn-cons" style="margin-top: 10px" type="submit" value="登录" /><!--登录按钮-->
+                            </div>
+                        </form>
+
+
+
+
+                        <!--注册DIV-->
+                        <form onsubmit="return false">
+                            <div class="register">
+
+                                <!--用户名-->
+                                <div class="form-group form-group-default">
+                                    <div class="controls">
+                                        <input autocomplete="off" required class="form-control" id="usernames" name="userName" placeholder="请输入用户名,英文数字组合" type="text" pattern="^[A-Za-z0-9]+$" />
+                                    </div>
+                                </div>
+
+                                <!--密码-->
+                                <div class="form-group form-group-default">
+
+                                    <div class="controls">
+                                        <input autocomplete="off" required class="form-control" id="Text1" name="userPwd" placeholder="请输入密码" type="password" />
+                                    </div>
+                                </div>
+
+                                <!--确认密码-->
+                                <div class="form-group form-group-default">
+
+                                    <div class="controls">
+                                        <input onblur="checkPwd($(this));" autocomplete="off" required class="form-control" id="Text2" name="sureUserPwd" placeholder="确认密码" type="password" />
+                                    </div>
+                                </div>
+
+                                <!--手机号-->
+                                <div class="form-group form-group-default">
+
+                                    <div class="controls">
+                                        <input autocomplete="off" class="form-control" id="Text3" name="userTel" placeholder="请输入手机号" type="text" required pattern="^1(3|5|8|9|7)\d{9}$" />
+                                    </div>
+                                </div>
+
+                                <!--邮箱-->
+                                <div class="form-group form-group-default">
+
+                                    <div class="controls">
+                                        <input autocomplete="off" class="form-control" id="Text4" name="userEmail" placeholder="请输入邮箱" type="email" required />
+                                    </div>
+                                </div>
+
+
+                                <input class="btn btn-primary btn-block btn-cons" style="margin-top: 15px;" type="submit" value="注册" /><!--注册按钮-->
+                            </div>
+                        </form>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <!--右侧内容-->
+        </div>
+    </div>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script>
+        function checkPwd(obj) {
+        
+            var pwd = $("input[name='userPwd']").val();
+            var surePwd = obj.val();
+            if (pwd !== surePwd) {
+                toastr.info("密码不一致");
+            } 
+
+        }
+        $(function () {
+
+
+            $("input[type='checkbox']").click(function () {
+                var isRemPwd = $(this).attr("checked");
+                if (isRemPwd === "checked") {
+                    $(this).removeAttr("checked");
+                } else {
+                    $(this).attr("checked", "checked");
+                }
+            });
+
+            $("input[value='登录']").click(function () {
+                var name = $("input[name='name']").val();
+                var pwd = $("input[name='pwd']").val();
+                var isRemPwd = $("input[type='checkbox']").attr("checked") === "checked" ? true : false;
+                var validateCode = $("input[name='validateCode']").val();
+                var regValicode = /^\d{4}/i;
+                if (name !== "" && pwd !== "" && regValicode.test(validateCode)) {
+                    $.ajax({
+                        method: "post",
+                        url: "/user/login",
+                        dataType: "json",
+                        data: {
+                            ValidateCode: validateCode,
+                            UserName: name,
+                            UserPwd: pwd,
+                            RemPwd: isRemPwd
+
+                        },
+                        success: function (data) {
+                            if (data.Result === "no") {
+                                toastr.info(data.Msg);
+                                return;
+                            }
+                            window.location.href = data;
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            toastr.error("登录失败");
+                        }
+
+                    });
+                    return false;
+                } else {
+                    return;
+                }
+
+
+            });
+
+            $("input[value='注册']").click(function () {
+
+                var userName = $("input[name='userName']").val();
+                var userPwd = $("input[name='userPwd']").val();
+                var userTel = $("input[name='userTel']").val();
+                var userEmail = $("input[name='userEmail']").val();
+                var reg = /\w+@@\w+\.\w+/i;
+                if (userName !== "" && userPwd !== "" && userTel !== "" && userEmail !== "" && reg.test(userEmail)) {
+                    $.ajax({
+                        method: "post",
+                        url: "/user/register",
+                        dataType: "json",
+                        data: {
+                            userName: userName,
+                            userPwd: userPwd,
+                            userTel: userTel,
+                            userEmail: userEmail
+                        },
+                        success: function (data) {
+                            if (data === "no") {
+                                toastr.info("该用户已存在");
+                                return;
+                            }
+                            window.location.href = data;
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            toastr.error("注册失败");
+                        }
+
+                    });
+                    return false;
+                } else {
+                    return;
+
+                }
+            });
+
+
+            //验证码
+            $("img#validateCode").click(function () {
+                $(this).attr("src", "/User/ValidateCode?flag=" + Math.random());
+
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "AllSalesChart";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="mdui-row mdui-m-t-5">
+    <div class="mdui-col">
+        <div id="main" class="mdui-center" style="width: 900px; height: 600px;"></div>
+     
+        <script type="text/javascript">
+            $.ajax({
+                type: "post",
+                async : false, //同步执行
+                url: "@Url.Action("AllSalesChart", "Chart")",
+                dataType: "json",
+                data: "",
+                success: function(data) {
+                    bind(data);
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+            //JS成功后的代码
+            function bind(result){
+                // 基于准备好的dom，初始化echarts图表
+                var TypeSalesChart = echarts.init(document.getElementById('main'));
+
+                var option = {
+                    title : {
+                        text: '销售统计',
+                        subtext: '纯属虚构',
+                        x:'center'
+                    },
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data:(function(){
+                            var res = [];
+                            var len = result.length;
+                            for(var i=0,size=len;i<size;i++) {
+                                res.push({
+                                    name: result[i].Name
+                                });
+                            }
+                            return res;
+                        })()
+                    },
+                    series : [
+                        {
+                            name: '类别统计',
+                            type: 'pie',
+                            radius : '55%',
+                            center: ['50%', '60%'],
+                            data:(function(){
+                                var res = [];
+                                var len = result.length;
+                                for(var i=0,size=len;i<size;i++) {
+                                    res.push({
+                                        //通过把result进行遍历循环来获取数据并放入Echarts中
+                                        name: result[i].Name,
+                                        value: result[i].Data
+                                    });
+                                }
+                                return res;
+                            })(),
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+
+
+                //var option = {
+                //    tooltip : {
+                //        trigger: 'item',
+                //        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                //    },
+                //    legend: {
+                //        orient : 'vertical',
+                //        x : 'left',
+                //        data:(function(){
+                //            var res = [];
+                //            var len = result.length;
+                //            for(var i=0,size=len;i<size;i++) {
+                //                res.push({
+                //                    name: result[i].Name,
+                //                });
+                //            }
+                //            return res;
+                //        })()
+
+                //    },
+                //    series : [
+                //        {
+                //            name:'访问来源',
+                //            type:'pie',
+                //            radius : '55%',
+                //            center: ['50%', '60%'],
+                //            data:(function(){
+                //                var res = [];
+                //                var len = result.length;
+                //                for(var i=0,size=len;i<size;i++) {
+                //                    res.push({
+                //                        //通过把result进行遍历循环来获取数据并放入Echarts中
+                //                        name: result[i].Name,
+                //                        value: result[i].Data
+                //                    });
+                //                }
+                //                return res;
+                //            })()
+                //        }
+                //    ]
+                //};
+                // 为echarts对象加载数据 
+                TypeSalesChart.setOption(option);
+            }
+
+        </script>
+
+    </div>
+</div>
+

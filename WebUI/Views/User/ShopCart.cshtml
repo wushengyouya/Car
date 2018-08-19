@@ -1,0 +1,286 @@
+﻿@using Common
+@using Model
+@model WebUI.Models.ShopCartModel
+
+@{
+    ViewBag.Title = "ShopCart";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Foot
+{
+    <script id="shop-cart" type="text/html">
+        <table class="table">
+            <thead>
+            <tr>
+                <td>
+                    <span>商品<span class="counter">({{SumGoodsCount}})</span></span>
+                </td>
+                <td>
+                    <span>价格</span>
+                </td>
+                <td>
+                    <span>数量</span>
+                </td>
+                <td>
+                    <span>总价</span>
+                </td>
+                <td>
+                    <span>移除</span>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            {{each GoodsModels}}
+            <tr class="ShopCartGoods" goodsId="{{$value.GoodsId}}" >
+                <td>
+                    <div class="image">
+                        <img style="width: 111px; height: 134px;" src="@Setting.GoodsPicFolder{{$value.GoodsPictureAdress}}" class="img-responsive img-thumbnail center-block" alt="6s">
+                    </div>
+                    <div class="caption">
+                        <a class="product-name" href="/goods/detail/{{$value.GoodsId}}">{{$value.GoodsName}}</a>
+                        <div class="product-options">
+                            <p class="opt-color">{{$value.GoodsTitle}}</p>
+                        </div>
+
+                        {{if $value.UserIsCollectGoods}}
+                        <button type="button" onclick="myAjax('collect', $(this));" class="btn btn-add-wish collectGoods" data-goods-id="{{$value.GoodsId}}"><i class="fa fa-heart"></i>收藏</button>
+                        {{else}}
+                        <button type="button" onclick="myAjax('collect', $(this));" class="btn btn-add-wish collectGsoods" data-goods-id="{{$value.GoodsId}}"><i class="fa fa-heart-o"></i>收藏</button>
+                        {{/if}}
+                    </div>
+                </td>
+                <td style="width: 188px;">
+                    <span class="product-price">￥{{$value.GoodsPrice}}</span>
+                </td>
+                <td>
+                    <div class="input-group btn-block qty-block" data-trigger="spinner">
+                        <a class="spinner-btn-mod" href="javascript:;" data-spin="down" onclick="ShopCartAjax('down', $(this))">-</a><input class="form-control" type="text" readonly="readonly" value="{{$value.ShopCartGoodsCount}}" data-rule="quantity" style="width: 55px"><a class="spinner-btn-mod" href="javascript:;" data-spin="up" onclick="ShopCartAjax('up', $(this))">+</a>
+                    </div>
+                </td>
+                <td  style="width: 188px;">
+                    <span  class="product-price total-price" goodsId="{{$value.GoodsId}}">￥{{$value.TotalMoney}}</span>
+                </td>
+                <td class="text-left">
+                    <button class="btn btn-remove" onclick="ShopCartAjax('remove', $(this))"><i class="fa fa-trash fa-lg"></i></button>
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </script>
+
+    <script id="shop-cart-price" type="text/html">
+        {{each GoodsModels}}
+        <tr>
+            <td>{{$value.GoodsName}}</td>
+            <td style="width: 579px;" goodsId="{{$value.GoodsId}}" class="goodsTotalMoney">￥<span>{{$value.TotalMoney}}</span></td>
+        </tr>
+        {{/each}}
+        <tr class="total">
+            <td>总金额</td>
+            <td style="width: 579px;">￥{{SumPrice}}</td>
+        </tr>
+    </script>
+
+    <script>
+        $("a[data-spin=down]").click(function() {
+            ShopCartAjax("down", $(this));
+        });
+        $("button.btn-remove").click(function() {
+            ShopCartAjax("remove", $(this));
+        });
+        $("a[data-spin=up]").click(function() {
+            ShopCartAjax("up", $(this));
+        });
+
+        $("button#clearing").click(function() {
+            var ids = [];
+            var $selectTr = $("#shopCartView tbody").find("tr");
+           
+            $.each($selectTr,
+                function (index, obj) {
+                        ids[index] = $(obj).attr("goodsId");
+                });
+
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "@Url.Action("ShopCart","User")",
+                data: {
+                    action: "clearing",
+                    ids: JSON.stringify(ids)
+                },
+                success: function (data) {
+                    if (data==="no") {
+                        toastr.info("请先修改收货信息");
+                        return;
+                    }
+                    window.location.href = data;
+                }
+            });
+        });
+
+
+
+        function ShopCartAjax(action, obj) {
+            var goodsId = obj.parents("tr").attr("goodsId");
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "@Url.Action("ShopCartPartialView", "User")",
+                data: {
+                    action: action,
+                    goodsId: goodsId
+                },
+                success: function (data) {
+                    if (data==="no") {
+                        toastr.error("库存不足");
+                        return;
+                    }
+                    $("#shopCartView").html(template("shop-cart", data));
+                    $("#shopCartViewPrice").html(template("shop-cart-price", data));
+                }
+            });
+        }
+    </script>
+}
+<section class="section-shopping-cart">
+    <div class="b-page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 clearfix">
+                    <h3 class="page-title pull-left">我的购物车</h3>
+                    <div class="b-breadcrumbs pull-right">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="@Url.Action("Index", "Home")">home</a>
+                            </li>
+                            <li>
+                                <span>我的购物车</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 cart-table wow fadeInUp">
+                <div class="b-table b-cart-table table-responsive" id="shopCartView">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>
+                                    <span>商品<span class="counter">(@Model.SumGoodsCount)</span></span>
+                                </td>
+                                <td>
+                                    <span>价格</span>
+                                </td>
+                                <td>
+                                    <span>数量</span>
+                                </td>
+                                <td>
+                                    <span>总价</span>
+                                </td>
+                                <td>
+                                    <span>移除</span>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in Model.GoodsModels)
+                                {
+                                    <tr goodsId="@item.GoodsId">
+                                        <td>
+                                            <div class="image">
+                                                <img style="width: 111px; height: 134px;" src="@Setting.GoodsPicFolder@item.GoodsPictureAdress" class="img-responsive img-thumbnail center-block" alt="6s">
+                                            </div>
+                                            <div class="caption">
+                                                <a class="product-name" href="@Url.Action("GoodsDetail","Goods",new {id=item.GoodsId})">@item.GoodsName</a>
+                                                <div class="product-options">
+                                                    <p class="opt-color">@item.GoodsTitle</p>
+                                                </div>
+                                                @{
+                                                    if (item.UserIsCollectGoods)
+                                                    {
+                                                        <button type="button" class="btn btn-add-wish collectGoods" data-goods-id="@item.GoodsId"><i class="fa fa-heart"></i>收藏</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn btn-add-wish collectGoods" data-goods-id="@item.GoodsId"><i class="fa fa-heart-o"></i>收藏</button>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </td>
+                                        <td style="width: 188px;">
+                                            <span class="product-price">￥@item.GoodsPrice</span>
+                                        </td>
+                                        <td>
+                                            <div class="input-group btn-block qty-block" data-trigger="spinner">
+                                                <a class="spinner-btn-mod" href="javascript:;" data-spin="down">-</a><input readonly="readonly" class="form-control" type="text" value="@item.ShopCartGoodsCount" data-rule="quantity" style="width: 55px"><a class="spinner-btn-mod" href="javascript:;" data-spin="up">+</a>
+                                            </div>
+                                        </td>
+                                        <td style="width: 188px;">
+                                            <span class="product-price total-price" goodsId="@item.GoodsId">￥@item.TotalMoney</span>
+                                        </td>
+                                        <td class="text-left">
+                                            <button class="btn btn-remove"><i class="fa fa-trash fa-lg"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <a href="@Url.Action("Index","Home")"><button class="btn btn-default-color1 btn-continue btn-sm">继续购物</button></a>
+
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wow fadeInRight">
+                <div class="b-total-table clearfix">
+                    <table class="table table-condensed">
+                        <tbody id="shopCartViewPrice">
+                            @{
+                                foreach (var item in Model.GoodsModels)
+                                {
+                                    <tr>
+                                        <td>@item.GoodsName</td>
+                                        <td style="width: 579px;" goodsId="@item.GoodsId" class="goodsTotalMoney">￥<span>@item.TotalMoney</span></td>
+                                    </tr>
+                                }
+                            }
+
+
+
+                            <tr class="total">
+                                <td>总金额</td>
+                                <td style="width: 579px;">￥@Model.SumPrice</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary-color2 btn-sm" id="clearing">去结算</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">确定删除选择的商品吗？</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="deleteShopCartGoods" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>

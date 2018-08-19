@@ -1,0 +1,421 @@
+﻿@model IEnumerable<IndexModel>
+@using System.Collections
+@using BLL
+@using Common
+@using Model
+@using WebUI.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section Head
+{
+    <style>
+        img {
+            background: url(../../Content/images/Loading.gif) 50% no-repeat;
+        }
+    </style>
+}
+<section class="section-home home-2">
+    @*滚动图*@
+    <section class="main-slider">
+        <div class="slider-pro full-width-slider" id="main-slider" data-width="100%" data-height="570" data-fade="true" data-buttons="true" data-wait-for-layers="true" data-thumbnail-pointer="false" data-touch-swipe="false" data-autoplay="true" data-auto-scale-layers="true" data-visible-size="100%" data-force-size="fullWidth" data-autoplay-delay="5000">
+            <div class="sp-slides">
+                <div class="sp-slide">
+
+                    <img style="width: 1600px; height: 570px;" class="sp-image" src="https://wx2.sinaimg.cn/mw1024/005GFM2Xgy1fs7f8rjgwhj31kw0qfkcl.jpg" alt="slide1" />
+                    <div class="sp-layer slider-discount"
+                         data-horizontal="18.6%" data-vertical="22.5%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="200">
+                        <span>全场优惠20%</span>
+                    </div>
+                    <div class="sp-layer slide-tex-1"
+                         data-horizontal="18.6%" data-vertical="33.5%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="600" data-hide-delay="100">
+                        <span>低价<br><span class="border-line">在售</span></span>
+                    </div>
+                    <div class="sp-layer slider-text-2"
+                         data-horizontal="18.7%" data-vertical="54.4%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+                        限时特卖<br>
+                        淘自己喜欢的汽配
+                    </div>
+                    <div class="sp-layer"
+                         data-horizontal="18.9%" data-vertical="68.7%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="1000">
+                        <a class="btn btn-primary-color1 btn-sm" href="#">点击查看</a>
+                    </div>
+                </div>
+                <div class="sp-slide">
+                    <img class="sp-image" src="https://wx4.sinaimg.cn/mw1024/005GFM2Xgy1fs7f8ov9j0j31kw0w0wmx.jpg" alt="slide2" />
+                    <div class="sp-layer ls-text"
+                         data-horizontal="14.8%" data-vertical="27.5%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="200">
+                        <span>引擎特价</span>
+                    </div>
+                    <div class="sp-layer"
+                         data-horizontal="15%" data-vertical="35.5%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="600" data-hide-delay="100">
+                        <span>优惠</span>
+                    </div>
+                    <div class="sp-layer"
+                         data-horizontal="15%" data-vertical="41.7%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+                        <span>再优惠</span>
+                    </div>
+                    <div class="sp-layer text-highlight"
+                         data-horizontal="15%" data-vertical="52%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+                        <span class="highlight-primary">使用优惠卷立减1000元</span>
+                    </div>
+                    <div class="sp-layer"
+                         data-horizontal="15%" data-vertical="63.4%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="1000">
+                        <button class="btn btn-default-color1 btn-sm" type="button">点击查看</button>
+                    </div>
+                </div>
+                <div class="sp-slide">
+
+                    <img class="sp-image" src="https://wx3.sinaimg.cn/mw1024/005GFM2Xgy1fs7f8oq4vcj30zk0npgu2.jpg" alt="slide3" />
+                    <div class="sp-layer s3-text"
+                         data-horizontal="18.7%" data-vertical="22.3%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="400" data-hide-delay="200">
+                        <span>车轮系列</span>
+                    </div>
+                    <div class="sp-layer s3-name"
+                         data-horizontal="18.4%" data-vertical="25%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="600" data-hide-delay="100">
+                        <span>钢轮</span>
+                    </div>
+                    <div class="sp-layer s3-discount"
+                         data-horizontal="18.7%" data-vertical="36.4%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+                        <span>smartphones<br>优惠30%</span>
+                    </div>
+                    <div class="sp-layer s3-text2"
+                         data-horizontal="18.7%" data-vertical="53%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="800">
+                        <span>特价销售<br>特价销售</span>
+                    </div>
+                    <div class="sp-layer sl3"
+                         data-horizontal="18.8%" data-vertical="69.4%"
+                         data-show-transition="left" data-hide-transition="up" data-show-delay="1000">
+                        <button class="btn btn-default-color1 btn-sm" type="button">查看详情</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @*中部商品展示*@
+    @*<div class="b-prom-offers">
+        <div class="container">
+            <div class="row">
+                @{
+                    
+                    foreach (Goods item in ViewBag.wheel)
+                    {
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <a title="@item.goods_name" href="@Url.Action("GoodsDetail","Goods",new {id=item.goods_id})" class="wow fadeInLeft" style="visibility: visible; animation-name: fadeInLeft;">
+                                <img style="width: 555px; height: 330px;" src="~/Content/images/blank.gif" data-echo="https://tse4.mm.bing.net/th?id=OIP.rZo_8TcFyI28OkK3_U38vQHaE8&pid=Api" class="img-responsive btn img-thumbnail lazy" alt="">
+                            </a>
+
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+    <div class="b-3offer-row">
+        <div class="container">
+            <div class="row">
+                @{
+
+                    foreach (Goods item in ViewBag.engineOil)
+                    {
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 wow bounceInUp" style="visibility: visible; animation-name: bounceInUp;">
+                            <a title="@item.goods_name" href="@Url.Action("GoodsDetail","Goods",new {id=item.goods_id})">
+                                <img style="width: 360px; height: 120px;" src="~/Content/images/blank.gif" data-echo="@Setting.GoodsPicFolder@item.Picture.FirstOrDefault().picture_adress" class="img-responsive img-thumbnail center-block" alt="">
+                            </a>
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>*@
+    @*<div class="b-hr">
+        <hr>
+    </div>@*分割线*@
+
+
+
+    @*商品类别展示*@
+    <div class="b-bestsellers">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a class="heading-line" href="#bybrand" aria-controls="bybrand" role="tab" data-toggle="tab">所有类别</a>
+                        </li>
+                        <li role="presentation">
+                            <a class="heading-line" href="#bestsellers" aria-controls="bestsellers" role="tab" data-toggle="tab">最畅销</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        @*所有类别*@
+                        <div role="tabpanel" class="tab-pane active" id="bybrand">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="b-brand-filters">
+                                        <div>
+                                            <ul class="tags-buttons list-inline by-brands-buttons">
+                                                @{
+                                                    <li>
+                                                        <button data-filter="*" class="btn active btn-tag">所有商品</button>
+                                                    </li>
+                                                    foreach (var item in Model)
+                                                    {
+                                                        <li>
+                                                            <button data-filter=".@item.GoodsType.goods_type_name" class="btn btn-tag">@item.GoodsType.goods_type_name</button>
+                                                        </li>
+                                                    }
+                                                }
+
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="b-related by-brands column-slider wow bounce  animated" style="position: relative; height: 860px; visibility: visible; animation-name: bounce;">
+                                    @{
+                                        foreach (var item in Model)
+                                        {
+                                            foreach (var goods in item.Goodses)
+                                            {
+                                                <div class="@item.GoodsType.goods_type_name related-item col-xs-6 col-sm-6 col-md-3 col-lg-3" style="position: absolute; left: 0px; top: 0px;">
+                                                    <div class="b-item-card">
+                                                        <div class="image">
+                                                            <a href="@Url.Action("GoodsDetail", "Goods", new {id = goods.Goods.goods_id})">
+                                                                @{
+                                                                    try
+                                                                    {
+                                                                        <img style="width: 260px; height: 248px;" src="~/Content/images/blank.gif" data-echo="@Setting.GoodsPicFolder@goods.Goods.Picture.FirstOrDefault().picture_adress" class="img-responsive center-block" alt="">
+                                                                    }
+                                                                    catch (Exception e)
+                                                                    {
+                                                                        <img style="width: 260px; height: 248px;" src="~/Content/images/blank.gif" data-echo="#" class="img-responsive center-block" alt="">
+                                                                        LogHelper.Error("logerror", "商品图片未主页显示上传异常,商品编号:" + goods.Goods.goods_id, e);
+                                                                    }
+                                                                }
+
+                                                            </a>
+
+                                                            <div class="image-add-mod">
+                                                                <div class="add-description">
+                                                                    <div>
+                                                                        <span>销量：@goods.Goods.sell_count</span>
+                                                                        <br />
+                                                                        <span>类别：@item.GoodsType.goods_type_name</span>
+                                                                        <br>
+                                                                        <span>标题：@goods.Goods.goods_title</span>
+                                                                        <br>
+                                                                        @{
+                                                                            try
+                                                                            {
+                                                                                <a href="@Setting.GoodsPicFolder@goods.Goods.Picture.FirstOrDefault().picture_adress" data-gal="prettyPhoto" title="@goods.Goods.goods_title" class="btn btn-lightbox btn-default-color1 btn-sm">
+                                                                                    <i class="fa fa-search-plus fa-lg"></i>
+                                                                                </a>
+                                                                            }
+                                                                            catch
+                                                                            {
+                                                                                <a href="#" data-gal="prettyPhoto" title="@goods.Goods.goods_title" class="btn btn-lightbox btn-default-color1 btn-sm">
+                                                                                    <i class="fa fa-search-plus fa-lg"></i>
+                                                                                </a>
+                                                                            }
+                                                                        }
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-info">
+                                                            <div class="caption">
+                                                                <p class="name-item">
+                                                                    <a class="product-name" href="@Url.Action("GoodsDetail","Goods",new{id=goods.Goods.goods_id})">@goods.Goods.goods_name</a>
+                                                                </p>
+                                                                <span class="product-price">￥@goods.Goods.goods_price</span>
+                                                            </div>
+                                                            <div class="add-buttons">
+                                                                @{
+                                                                    if (goods.UserIsCollectGoods)
+                                                                    {
+                                                                        <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-heart"></i></button>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-heart-o"></i></button>
+
+                                                                    }
+                                                                }
+                                                                <button type="button" class="btn btn-add btn-add-cart addShopCart" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-shopping-cart"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
+                                    }
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @*最畅销*@
+                        <div role="tabpanel" class="tab-pane" id="bestsellers">
+                            <div class="row">
+                                <div class="b-related">
+                                    @*子项*@
+                                    @{
+                                        foreach (var goods in (List<GoodsModel>)ViewData["goods"])
+                                        {
+                                            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                                                <div class="b-item-card">
+                                                    <div class="image">
+                                                        <a href="#">
+                                                            <img style="width: 260px;height: 248px;" src="~/Content/images/blank.gif" data-echo="@Setting.GoodsPicFolder@goods.Goods.Picture.FirstOrDefault().picture_adress" class="img-responsive center-block" alt="">
+                                                        </a>
+                                                        <div class="image-add-mod">
+                                                            <div class="add-description">
+                                                                <div>
+                                                                    <span>销量：@goods.Goods.sell_count</span>
+                                                                    <br />
+                                                                    <span>类别：@goods.Goods.GoodsType.goods_type_name</span>
+                                                                    <br>
+                                                                    <span>标题：@goods.Goods.goods_title</span>
+                                                                    <br>
+
+                                                                    <a href="@Setting.GoodsPicFolder@goods.Goods.Picture.FirstOrDefault().picture_adress" data-gal="prettyPhoto" title="@goods.Goods.goods_title" class="btn btn-lightbox btn-default-color1 btn-sm">
+                                                                        <i class="fa fa-search-plus fa-lg"></i>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-info">
+                                                        <div class="caption">
+                                                            <p class="name-item">
+                                                                <a class="product-name" href="@Url.Action("GoodsDetail","Goods",new{id=goods.Goods.goods_id})">@goods.Goods.goods_name</a>
+                                                            </p>
+                                                            <span class="product-price">￥@goods.Goods.goods_price</span>
+                                                        </div>
+                                                        <div class="add-buttons">
+                                                            @{
+                                                                if (goods.UserIsCollectGoods)
+                                                                {
+                                                                    <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-heart"></i></button>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-heart-o"></i></button>
+
+                                                                }
+                                                            }
+                                                            <button type="button" class="btn btn-add btn-add-cart addShopCart" data-goods-id="@goods.Goods.goods_id"><i class="fa fa-shopping-cart"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @*评论*@
+    <div class="b-say">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h3 class="heading-line text-center">他们说</h3>
+                </div>
+                <div class="b-says-holder col-sm-10 col-sm-offset-1 wow bounce  animated">
+                    <div class="row">
+                        <ul class="b-say-blockquotes enable-bx-slider" data-pager-custom="null" data-controls="false" data-min-slides="1" data-max-slides="1" data-slide-width="0" data-slide-margin="35" data-pager="true" data-mode="vertical" data-infinite-loop="true">
+                            @{
+                                List<Comment> comments = (List<Comment>)ViewData["comments"];
+                                for (int i = 0; i < comments.Count/2; i++)
+                                {
+                                    <li>
+                                        @{
+                                            foreach (var item in comments.GetRange(i * 2, 2))
+                                            {
+                                                UserInfo user = item.UserInfo;
+                                                Goods goods = item.Goods;
+                                                <div class="b-blockquote-holder">
+                                                    <div class="quote-circle-long">
+                                                        <div class="b-blockquote-fa-quote-circle">
+                                                            <div class="circle-block clearfix col-sm-3">
+                                                                <span title="用户评论" class="quote-icon"><i class="fa fa-quote-left"></i></span>
+                                                                <p class="circle-author">
+                                                                    @{
+                                                                        var tempUserName = user.user_name.Length > 5 ? user.user_name.Substring(0, 5) : user.user_name;
+                                                                    }
+                                                                    <span class="circle-quote-author" title="@user.user_name" style="max-width: 100px;">@tempUserName</span>
+                                                                    <br>
+                                                                    <span class="circle-quote-author">@DateTimeExtensions.FriendlyDate(item.comment_time)</span>
+                                                                    <br>
+                                                                    @{
+                                                                        var tempGoodsName = goods.goods_name.Length > 7 ? goods.goods_name.Substring(0, 7) : goods.goods_name;
+                                                                    }
+                                                                    <span class="circle-author-role"><a style="max-width: 100px;" title="@goods.goods_name" href="@Url.Action("GoodsDetail", "Goods", new {id = goods.goods_id})">@tempGoodsName</a></span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="circle-text col-sm-9">
+                                                                <p class="quote-text" style=" max-width: 680px; padding-top: 25px;">
+                                                                    @item.comment_content
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            }
+
+                                        }
+                                    </li>
+                                }
+
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

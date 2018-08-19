@@ -1,0 +1,562 @@
+﻿@using Common
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>蓝天汽配</title>
+    <link href="../../Content/css/master.css" rel="stylesheet">
+    <!-- SWITCHER -->
+    <link rel="stylesheet" id="switcher-css" type="text/css" href="../../Content/assets/switcher/css/switcher.css" media="all" />
+    <link rel="alternate stylesheet" type="text/css" href="../../Content/assets/switcher/css/color1.css" title="color1" media="all" />
+    <link rel="alternate stylesheet" type="text/css" href="../../Content/assets/switcher/css/color2.css" title="color2" media="all" />
+    <link rel="alternate stylesheet" type="text/css" href="../../Content/assets/switcher/css/color3.css" title="color3" media="all" />
+    <link rel="alternate stylesheet" type="text/css" href="../../Content/assets/switcher/css/color4.css" title="color4" media="all" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+
+    @RenderSection("Head", false)
+</head>
+<body>
+    <!-- Loader -->
+    <div id="page-preloader"><span class="spinner"></span></div>
+    <!-- Loader end -->
+    <div class="b-page">
+        <!-- Start Switcher -->
+        <div class="switcher-wrapper">
+            <div class="demo_changer">
+                <div class="demo-icon customBgColor">
+                    <i class="fa fa-cog fa-spin fa-2x"></i>
+                </div>
+                <div class="form_holder">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="predefined_styles">
+                                <div class="skin-theme-switcher">
+                                    <h4>Color</h4>
+                                    <a href="#" data-switchcolor="color1" class="styleswitch" style="background-color: #e24545;"> </a>
+                                    <a href="#" data-switchcolor="color2" class="styleswitch" style="background-color: #0072bc;"> </a>
+                                    <a href="#" data-switchcolor="color3" class="styleswitch" style="background-color: #ff9600;"> </a>
+                                    <a href="#" data-switchcolor="color4" class="styleswitch" style="background-color: #01a664;"> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Switcher -->
+        <header>
+            <div class="b-top-line">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 clearfix">
+                            <div class="b-top-options pull-left">
+                                <div class="nav">
+                                    <ul class="list-inline">
+
+
+                                        <li class="dropdown">
+                                            <div class="btn-group">
+                                                <button class="dropdown-toggle" data-toggle="dropdown" title="My Account" aria-expanded="false">
+                                                    @{
+                                                        if (Setting.UserInfo == null)
+                                                        {
+                                                            <span>点击登录</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Setting.UserInfo.user_name</span>
+                                                        }
+                                                    }
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li><a href="@Url.Action("Login","User")"><i class="fa fa-unlock"></i>登录</a></li>
+                                                    <li><a href="@Url.Action("Login","User")"><i class="fa fa-user"></i>注册</a></li>
+                                                    <li><a href="@Url.Action("PersonalCenter","User")"><i class="fa fa-user"></i>个人中心</a></li>
+                                                    <li><a href="@Url.Action("PurchaseHistory","User")"><i class="fa fa-user"></i>所有订单</a></li>
+                                                    <li><a href="@Url.Action("Collect","User")"><i class="fa fa-heart"></i>我的收藏</a></li>
+                                                    <li><a href="@Url.Action("ShopCart","User")"><i class="fa fa-shopping-cart"></i>我的购物车</a></li>
+                                                    <li><a target="_blank" href="@Url.Action("AllGoods","GoodsManager")"><i class="fa fa-shopping-cart"></i>后台管理</a></li>
+                                                    <li><a href="@Url.Action("Exit","Home")"><i class="fa fa-arrow-left"></i>退出</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="b-top-info pull-right">
+                                <div class="nav">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <span><i class="fa fa-phone"></i>15575564709</span>
+                                        </li>
+                                        <li>
+                                            <span><i class="fa fa-envelope-o"></i>1009889421@qq.com</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-header-main style-2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+                            <div class="b-logo">
+                                <a href="@Url.Action("Index", "Home")">
+                                    <span>蓝天</span>
+                                    <br>
+                                    <span>汽配商城</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="toggle-nav" class="col-xs-12 col-sm-10 col-md-8 col-lg-8 menu-wrapper clearfix">
+                            <div class="toggle-nav-btn">
+                                <button class="btn btn-menu"><i class="fa fa-bars fa-lg"></i></button>
+                            </div>
+                            <div class="b-header-menu pull-right">
+                                <ul class="list-inline">
+                                    <li>
+                                        <a class="heading-line" href="@Url.Action("Index","Home")">主页</a>
+
+                                    </li>
+                                    <li>
+                                        <a class="heading-line" href="#">类别</a>
+                                        <div class="b-all-homes">
+                                            <ul class="list-unstyled">
+                                                @{
+
+                                                    foreach (var item in Setting.GoodsTypes)
+                                                    {
+                                                        <li>
+                                                            <a class="heading-line" href="@Url.Action("GoodsType","Goods",new {id=item.goods_type_id})">@item.goods_type_name</a>
+                                                        </li>
+                                                    }
+                                                }
+
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="heading-line" href="#">产品</a>
+                                        <div class="b-all-homes">
+                                            <ul class="list-unstyled">
+                                                @{
+                                                    foreach (var item in Setting.Goodses)
+                                                    {
+                                                        <li>
+                                                            <a class="heading-line" href="@Url.Action("GoodsDetail","Goods",new {id=item.goods_id})">@item.goods_name</a>
+                                                        </li>
+                                                    }
+                                                }
+                                               
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="heading-line" href="#">关于</a>
+                                    </li>
+                                    <li>
+                                        <a class="heading-line" href="#">资讯</a>
+                                        <div class="b-all-homes">
+                                            <ul class="list-unstyled">
+                                                <li>
+                                                    <a class="heading-line" href="#">BLOG</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </li>
+
+                                    <li class="search">
+                                        <a id="search-open" class="iconSearch" href="#"><i class="fa fa-search"></i></a>
+                                        <div id="search">
+                                            <form action="@Url.Action("Search","Home")" method="post">
+                                                <div class="form-group">
+                                                    <input id="searchQuery" type="search" name="goodsName" placeholder="Search...">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="cart-wrapper" class="col-xs-6 col-sm-12 col-md-2 col-lg-2">
+                            <div class="b-cart pull-right" id="hoverShopCart">
+                                <button id="cart" class="btn btn-default-color1 btn-sm">
+                                    <span class="price"><i class="fa fa-shopping-bag"></i> ￥ 0</span>
+                                    <span class="counter-wrapper"><span class="counter">0</span></span>
+                                </button>
+                                <div class="cart-products">
+                                    <div class="c-holder">
+                                        <h3 class="title">
+                                            我的购物车
+                                        </h3>
+                                        <ul class="products-list list-unstyled">
+                                            <li>当前无商品</li>
+                                            <li>请登录</li>
+                                        </ul>
+                                        <div class="products-buttons text-center">
+                                            <a href="@Url.Action("ShopCart","User")"><button type="button" class="btn btn-default-color1 btn-sm">查看购物车</button></a>
+                                            <button type="button" class="btn btn-primary-color2 btn-sm" id="hoverClearing">去结算</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+
+
+
+        @RenderBody()
+
+
+
+        <div class="b-hr-mod">
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="b-features-wrapper">
+                        <div class="b-store-features clearfix wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                            <div class="b-feature-holder col-sm-3">
+                                <div class="feature-block">
+                                    <div class="feature-icon">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </div>
+                                    <div class="feature-info">
+                                        <p>售后服务</p>
+                                        <p>购买之后，质保1年</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="b-feature-holder col-sm-3">
+                                <div class="feature-block">
+                                    <div class="feature-icon">
+                                        <i class="fa fa-truck"></i>
+                                    </div>
+                                    <div class="feature-info">
+                                        <p>全国包邮</p>
+                                        <p>支持任何快递公司</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="b-feature-holder col-sm-3">
+                                <div class="feature-block">
+                                    <div class="feature-icon">
+                                        <i class="fa fa-commenting"></i>
+                                    </div>
+                                    <div class="feature-info">
+                                        <p>产品资讯</p>
+                                        <p>查看你喜欢的产品</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="b-feature-holder col-sm-3">
+                                <div class="feature-block">
+                                    <div class="feature-icon">
+                                        <i class="fa fa-headphones"></i>
+                                    </div>
+                                    <div class="feature-info">
+                                        <p>24小时在线</p>
+                                        <p>更好的购物体验</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <footer class="style-2">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="b-footer-subsc">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="subsc-title wow pulse nimated">
+                                        <p>
+                                            蓝天汽配网版权所有 联系我们
+                                        </p>
+                                        <p>
+                                            关于我们
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 col-lg-5">
+                                    <div class="subsc-mail wow pulse nimated">
+                                        <form id="comment-reply-form" class="b-form" method="get" action="#">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control" id="form-mail" placeholder="输入你的邮箱地址 ...">
+                                                        <button type="button" class="btn btn-subsc"><i class="fa fa-envelope-o fa-fw"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-lg-4 clearfix">
+                                    <div class="footer-socials wow pulse nimated">
+                                        <div class="b-socials clearfix">
+                                            <ul class="list-unstyled">
+                                                <li><a href=""><i class="fa fa-twitter fa-fw"></i></a></li>
+                                                <li><a href=""><i class="fa fa-facebook fa-fw"></i></a></li>
+                                                <li><a href=""><i class="fa fa-linkedin fa-fw"></i></a></li>
+                                                <li><a href=""><i class="fa fa-google-plus fa-fw"></i></a></li>
+                                                <li><a href=""><i class="fa fa-pinterest-p fa-fw"></i></a></li>
+                                                <li><a href=""><i class="fa fa-youtube-play fa-fw"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-rss fa-fw"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+    </div>
+
+
+
+    <script src="../../Scripts/js/jquery-1.11.2.min.js"></script>
+    <script src="../../Scripts/js/bootstrap.min.js"></script>
+    <script src="../../Content/assets/switcher/js/dmss.js"></script>
+    <script src="../../Scripts/js/jquery-ui.min.js"></script>
+    <script src="../../Scripts/js/modernizr.custom.js"></script>
+    <script src="../../Scripts/js/wow.min.js"></script>
+    <!--bootstrap-select -->
+    <script src="../../Content/assets/bootstrap-select/bootstrap-select.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Countdown Timer -->
+    <script src="../../Content/assets/countdown/dscountdown.min.js"></script>
+    <!--Owl Carousel-->
+    <script src="../../Content/assets/owl-carousel/owl.carousel.min.js"></script>
+    <!--bx slider-->
+    <script src="../../Content/assets/bxslider/jquery.bxslider.min.js"></script>
+    <!-- slider-pro-master -->
+    <script src="../../Content/assets/slider-pro-master/js/jquery.sliderPro.min.js"></script>
+    <script src="../../Content/assets/prettyPhoto/js/jquery.prettyPhoto.js"></script>
+    <script src="../../Scripts/js/waypoints.min.js"></script>
+    <script src="../../Scripts/js/jquery.easypiechart.min.js"></script>
+    <script src="../../Scripts/js/jquery.spinner.min.js"></script>
+    <script src="../../Scripts/js/isotope.pkgd.min.js"></script>
+    <script src="../../Scripts/js/jquery.placeholder.min.js"></script>
+    <script src="../../Scripts/js/theme.js"></script>
+    <script src="~/Scripts/template-web.js"></script>@*html模板*@
+    <script src="~/Scripts/toastr.min.js"></script>@*提示框*@
+
+    <script src="~/Scripts/echo.min.js"></script>
+
+    <script id="hoverShopCartView" type="text/html">
+        <button id="cart" class="btn btn-default-color1 btn-sm">
+            <span class="price"><i class="fa fa-shopping-bag"></i> ￥ {{SumPrice}}</span>
+            <span class="counter-wrapper"><span class="counter">{{SumGoodsCount}}</span></span>
+        </button>
+        <div class="cart-products">
+            <div class="c-holder">
+                <h3 class="title">
+                    我的购物车
+                </h3>
+                <ul class="products-list list-unstyled">
+                    {{each GoodsModels}}
+                    <li goodsId="{{$value.GoodsId}}">
+                        <div class="b-cart-table ">
+                            <a href="/goods/detail/{{$value.GoodsId}}" class="image">
+                                <img style="width: 70px;height: 70px;" src="@Setting.GoodsPicFolder{{$value.GoodsPictureAdress}}" alt="">
+                            </a>
+                            <div class="caption">
+                                <a style="max-width: 120px;" class="product-name" href="/goods/detail/{{$value.GoodsId}}">{{$value.GoodsName}}</a>
+                                <span class="product-price">{{$value.ShopCartGoodsCount}} x ￥{{$value.GoodsPrice}}</span>
+                            </div>
+                            <button class="btn btn-remove" data-goods-id="{{$value.GoodsId}}" onclick="HoverShopCart('remove',$(this))"><i class="fa fa-trash fa-lg"></i></button>
+                        </div>
+                    </li>
+                    {{/each}}
+                    <li>
+                        <div class="products-subtotal text-right">
+                            总金额 <span class="subtotal-price">￥ {{SumPrice}}</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="products-buttons text-center">
+
+                    {{if SumGoodsCount>0}}
+                    <a href="@Url.Action("ShopCart","User")"><button type="button" class="btn btn-default-color1 btn-sm">查看购物车</button></a>
+                    <button type="button" class="btn btn-primary-color2 btn-sm" id="hoverClearing" onclick="hoverShopCartClearing()">去结算</button>
+                    {{else}}
+                    <div>"购物车无商品"</div>
+                    {{/if}}
+
+                </div>
+            </div>
+        </div>
+    </script>
+
+    @RenderSection("Foot", false)
+    <script>
+    var b = true;//使悬浮购物车的hover事件只执行一次
+    $(function () {
+        Echo.init({//图片延迟加载
+            offset: 0,
+            throttle: 35
+        });
+
+
+        initClick();
+        HoverShopCart("miaksa", $("div.b-cart"));//加载悬浮购物车数据
+    });
+
+
+ function initClick() {
+        $(".addShopCart").click(function () {
+            myAjax("shopcart", $(this));
+
+            HoverShopCart("miaksa", $("div.b-cart"));//加载悬浮购物车数据
+        });
+        $(".collectGoods").click(function () {
+            myAjax("collect", $(this));
+        });
+
+        //悬浮购物车
+        $("div.b-cart").hover(
+            function () {
+                if (b) {
+                    HoverShopCart("miaksa", $(this));
+                }
+                return false;
+            }, function () { b = true;
+                return false;
+            });
+        }
+
+
+
+        function hoverShopCartClearing() {
+            var ids = [];
+            var quantity;
+            var $selectTr = $("#hoverShopCart ul").find("li");
+
+            $.each($selectTr,
+                function (index, obj) {
+                    ids[index] = $(obj).attr("goodsId");
+                });
+            ids.pop();
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "@Url.Action("ShopCart","User")",
+                data: {
+                    action: "clearing",
+                    ids: JSON.stringify(ids)
+                },
+                success: function (data) {
+                    if (data==="no") {
+                        toastr.info("请先修改收货信息");
+                        return;
+                    }
+                    window.location.href = data;
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(textStatus);
+                    toastr.error("结算失败");
+                }
+            });
+        }
+       //加入购物车和收藏
+        function myAjax(action, obj) {
+            var quantity =  $("input[data-rule='quantity']").val();
+                 var id = $(obj).attr("data-goods-id");
+
+                 $.ajax({
+                    method: "post",
+                    url: "/Goods/GoodsDetail",
+                    dataType: "json",
+                    data: {
+                        action: action,
+                        id: id,
+                        quantity: quantity == undefined ? 1 : quantity
+                    },
+                    success: function (data) {
+                        var i = obj.find("i");
+                        if (data === "ok") {
+                            toastr.success("收藏成功");
+                            $(i).removeClass("fa-heart-o").addClass("fa-heart");
+                            return;
+                        }
+                        else if (data === "no") {
+                            toastr.success("取消收藏成功");
+                            $(i).removeClass("fa-heart").addClass("fa-heart-o");
+                        } else {
+                            toastr.success(data);
+                        }
+
+
+                    },
+                     error: function (xhr, textStatus, errorThrown) {
+                         console.log(textStatus);
+                        toastr.error("操作错误");
+                    }
+
+                 });
+                 }
+
+    //悬浮购物车
+    function HoverShopCart(action, obj) {
+        b = false;
+    var goodsId = obj.attr("data-goods-id") == null ? 0:obj.attr("data-goods-id");
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: "@Url.Action("ShopCartPartialView", "User")",
+        data: {
+            action: action,
+            goodsId: goodsId
+        },
+        success: function (data) {
+            if (data==="no") {
+                return;
+            }
+            $("#hoverShopCart").html(template("hoverShopCartView", data));
+            if (action==="remove") {
+                toastr.success("移除成功");
+            }
+            if (data.SumGoodsCount === 0) {
+                $("button#hoverClearing").disable = true;
+                return;
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log(textStatus);
+            toastr.error("操作错误");
+        }
+        });
+        
+    }
+    </script>
+</body>
+</html>

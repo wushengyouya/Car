@@ -1,0 +1,451 @@
+﻿@using Common
+@using Model
+@model dynamic
+@{
+    ViewBag.Title = "ShopCart";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section Head
+{
+    <style>
+        #middle {
+            background: #f5f5f5;
+            padding-bottom: 38px;
+        }
+
+        .container {
+            /*width: 1226px;*/
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .cart_list {
+            background: #fff;
+        }
+
+        .table {
+            margin-bottom: 0px;
+        }
+
+        .cart_head th {
+            height: 70px;
+            line-height: 70px;
+        }
+
+        .mdui-checkbox {
+            padding-left: 25px;
+            right: -5px;
+        }
+
+        .mdui-checkbox-icon {
+            top: 26px;
+        }
+
+        .cart_head th a {
+            line-height: 55px;
+            color: black;
+            text-decoration: none;
+        }
+
+        .head-col-check a {
+            margin-left: 30px;
+        }
+
+        .head-col-check {
+            width: 110px;
+        }
+
+        .head-col-img {
+            width: 120px;
+        }
+
+        .head-col-name {
+            width: 350px;
+        }
+
+        .head-col-price {
+            width: 159px;
+        }
+
+        .head-col-num {
+            width: 150px;
+        }
+
+            .head-col-num a {
+                margin-left: 25px;
+            }
+
+        .head-col-total {
+            width: 201px;
+        }
+
+        .head-col-action {
+            width: 80px;
+        }
+
+        .table tbody tr {
+            height: 116px;
+            border-top: 1px solid #e0e0e0;
+            padding: 15px 26px 15px 0;
+        }
+
+        .table td {
+            height: 85px;
+        }
+
+            .table td a {
+                color: black;
+                text-decoration: none;
+                line-height: 100px;
+            }
+
+        .bdoy-col-check {
+            width: 110px;
+        }
+
+            .bdoy-col-check a {
+                margin-left: 30px;
+            }
+
+        .bdoy-col-img {
+            width: 120px;
+        }
+
+        .bdoy-col-name {
+            width: 350px;
+        }
+
+        .bdoy-col-price {
+            width: 159px;
+        }
+
+        .bdoy-col-num {
+            width: 150px;
+        }
+
+        .bdoy-col-total {
+            width: 201px;
+        }
+
+        .bdoy-col-action {
+            width: 80px;
+        }
+
+            .bdoy-col-action span {
+                line-height: 98px;
+            }
+
+        .num_text {
+            position: relative;
+            top: 1px;
+            left: 1px;
+        }
+
+        .magin {
+            height: 38px;
+        }
+
+        .cart_jiesuan {
+            height: 52px;
+            background-color: white;
+            overflow: hidden;
+        }
+
+            .cart_jiesuan span {
+                position: relative;
+                top: 17px;
+                font-size: 14px;
+                left: 38px;
+            }
+
+                .cart_jiesuan span a {
+                    text-decoration: none;
+                    color: #ff6700;
+                }
+
+        #go_jiesuan {
+            float: right;
+            height: 50px;
+            line-height: 50px;
+            background-color: #ff6700;
+            text-decoration: none;
+            color: white;
+            width: 150px;
+            text-align: center;
+        }
+
+        .heji {
+            float: right;
+            margin-right: 100px;
+            color: #ff6700;
+            margin-bottom: 15px;
+        }
+
+            .heji a {
+                text-decoration: none;
+                font-size: 20px;
+                color: #ff6700;
+            }
+
+        .modal-header {
+            border: none;
+        }
+
+        .modal-footer {
+            border: none;
+        }
+    </style>
+}
+@section Foot
+{
+    <script type="text/javascript">
+        $(function() {
+           
+            $("span#cartGoodsCount a").get(0).innerText = $("tr").length - 1;
+            //  alert();
+
+        });
+
+
+        $("input[type='checkbox']").change(function() {
+            // judge();
+
+            var $sapn = document.getElementById("allMoney");
+            if ($("tr.mdui-table-row-selected").length > 0) {
+                var $tr = $("tr.mdui-table-row-selected");
+
+                var all = 0;
+                $.each($tr,
+                    function(index, obj) {
+
+                        all = all + parseInt($(obj).find("td").get(5).innerText.replace("元", ""));
+                    });
+
+                // var all = parseInt($("tr.mdui-table-row-selected td").get(5).innerText) + parseInt($(this).parent().parent().siblings().get(4).innerText);
+                $sapn.innerText = all + "";
+                $("span#cartGoodsCount a").get(1).innerText = $tr.length;
+            } else {
+                $sapn.innerText = "0";
+                $("span#cartGoodsCount a").get(1).innerText = "0";
+            }
+
+        });
+
+
+        $("a#go_jiesuan").click(function() {
+            var ids = [];
+            var $selectTr = $("tr.mdui-table-row-selected");
+            if ($selectTr.length === 0) {
+                mdui.alert("请先选择商品");
+                return;
+            }
+
+            $.each($selectTr,
+                function(index, obj) {
+                    ids[index] = $(obj).attr("goodsId");
+                });
+
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "/User/ShopCart",
+                data: {
+                    action: "clearing",
+                    ids: JSON.stringify(ids)
+                },
+                success: function(data) {
+                    window.location.href = data;
+                }
+            });
+        });
+
+        var $tr_ = null;
+        //单选删除
+        $("button.deleteShopCartGoods").click(function() {
+            $tr_ = $(this).parents("tr");
+        });
+
+
+        //确认删除
+        $("button#deleteShopCartGoods").click(function() {
+            var ids = [];
+            //alert($tr_.length);
+            $.each($tr_,
+                function(index, obj) {
+                    ids[index] = $(obj).attr("goodsId");
+
+                    obj.remove();
+                });
+            DeleteShopCart(ids);
+            $tr_ = null;
+        });
+
+
+        //多选删除
+        $("a.deleteShopCartGoods").click(function() {
+            $tr_ = $("tr.mdui-table-row-selected");
+
+        });
+
+        //删除ajax
+        function DeleteShopCart(ids) {
+            $.ajax({
+                method: "post",
+                dataType: "json",
+                url: "/User/ShopCart",
+                data: {
+                    action: "delete",
+                    ids: JSON.stringify(ids)
+                },
+                success: function(data) {
+                    mdui.snackbar({
+                        message: data,
+                        position: 'right-bottom'
+                    });
+                }
+            });
+        }
+
+
+        //function selectAll() {
+        //    var isCheck = $("#sel_1").is(':checked');  //获得全选复选框是否选中
+        //    $("input[type='checkbox']").each(function () {
+        //        this.checked = isCheck;       //循环赋值给每个复选框是否选中
+        //    });
+        //    if (isCheck) {
+        //        $(".all").css({ color: "#fb6018" });
+        //        $(".all").css({ cursor: "pointer" });
+        //        $(".all").attr("data-toggle", "modal");
+        //        $(".all").attr("data-target", "#myModal");
+        //        //alert($(".all").parents("tr").length);
+        //    }
+        //    else {
+        //        $(".all").css({ color: "black" });
+        //        $(".all").css({ cursor: "auto" });
+        //        $(".all").attr("data-toggle", "");
+        //        $(".all").attr("data-target", "");
+
+        //    }
+        //};
+        function judge(id) {
+            var a = id.parentNode.parentNode.parentNode.parentNode.lastElementChild.lastElementChild.lastElementChild;
+            if (id.checked) {
+                a.removeAttribute("disabled");
+            } else {
+                a.setAttribute("disabled", "disabled");
+            }
+        }
+    </script>
+}
+
+<div id="middle">
+    <div class="container">
+        <h3>我的购物车</h3>
+        <div id="cartBox ">
+            <div class="cart_list table-responsive">
+                <table class="mdui-table mdui-table-selectable">
+                    <thead>
+                        <tr class="cart_head">
+                            @*<th class="head-col-check">
+                                    <a>
+                                        <label class="mdui-checkbox">
+                                            <input type="checkbox" onchange="selectAll()" id="sel_1" />
+                                            <i class="mdui-checkbox-icon"></i>
+                                        </label>
+                                        全选
+                                    </a>
+                                </th>*@
+                            <th class="head-col-img"><a>图片</a></th>
+                            @* <th class="head-col-img"><a></a></th>*@
+                            <th class="head-col-name"><a>商品名称</a></th>
+                            <th class="head-col-price"><a>单价</a></th>
+                            <th class="head-col-num"><a>数量</a></th>
+                            <th class="head-col-total"><a>小计</a></th>
+                            <th class="head-col-action"><a href="javascript:void(0);" class="all deleteShopCartGoods" data-toggle="modal" data-target="#myModal">删除</a></th> @*<%--全选删除--%>*@
+                        </tr>
+                    </thead>
+                    @*<%--头部--%>*@
+                    <tbody>
+
+                        @{
+
+                            for (int i = 0; i < Model.goodsList.Count; i++)
+                            {
+                                Goods goods = Model.goodsList[i];
+                                Picture pic = goods.Picture.FirstOrDefault();
+                                int total = Model.goodsCount[i] * Model.goodsList[i].goods_price;
+
+
+                                <tr goodsId="@goods.goods_id">
+                                    @*<td class="bdoy-col-check">
+                                            <a>
+                                                <label class="mdui-checkbox">
+                                                    <input type="checkbox" onchange="judge(this)" />
+                                                    <i class="mdui-checkbox-icon"></i>
+                                                </label>
+                                            </a>
+                                        </td>*@
+                                    <td class="bdoy-col-img">
+                                        <a>
+                                            <img style="height: 80px;width: 80px" src="@Setting.GoodsPicFolder@pic.picture_adress" />
+                                        </a>
+                                    </td>
+                                    <td class="bdoy-col-name"><a>@Model.goodsList[i].goods_name</a></td>
+                                    <td class="bdoy-col-price"><a>@Model.goodsList[i].goods_price<span>元</span></a></td>
+                                    <td class="bdoy-col-num">
+                                        <a>
+                                            <button class="mdui-btn mdui-ripple mdui-btn-icon">
+                                                <i class="mdui-icon material-icons">&#xe15b;</i>
+                                            </button>
+                                            <a class="num_text">@Model.goodsCount[i]</a>
+                                            <button class="mdui-btn mdui-ripple mdui-btn-icon">
+                                                <i class="mdui-icon material-icons">&#xe145;</i>
+                                            </button>
+                                        </a>
+                                    </td>
+                                    @*<%--数量--%>*@
+                                    <td class="bdoy-col-total"><span>@total</span>元</td>
+                                    <td class="bdoy-col-action">
+                                        <span>
+                                            <button  type="button" class="mdui-btn  deleteShopCartGoods mdui-ripple mdui-btn-icon" data-toggle="modal" data-target="#myModal">
+                                                <i class="mdui-icon material-icons">&#xe872;</i>q
+                                            </button>
+                                        </span>
+                                    </td>
+                                    @*<%--删除--%>*@
+                                </tr>
+                            }
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="magin"></div>
+            <div class="cart_jiesuan">
+                <span id="cartGoodsCount">共<a>10</a> 件商品，已选择 <a>0</a> 件</span>
+                <a id="go_jiesuan" href="javascript:void(0);">
+                    去结算
+                </a>
+                <span class="heji">合计：<a id="allMoney">0</a>元</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">确定删除选择的商品吗？</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" id="deleteShopCartGoods" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,224 @@
+﻿@using BLLFactory
+@using Common
+@using Model
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/fileinput.min.js"></script>
+    <script src="~/Scripts/fileinput_locale_zh.js"></script>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/mdui/0.4.1/css/mdui.min.css">
+
+    <link rel="stylesheet" href="ionicons.css" />
+    <script src="CSS/moment-with-locales(1).js"></script>
+    <script src="CSS/bootstrap-datetimepicker.min.js"></script>
+    <script src="CSS/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <style>
+        /*-----------头部样式---------------
+
+
+        */
+        @@media (min-width: 768px) {
+            .bs-docs-footer {
+                text-align: left;
+            }
+        }
+
+        .collapse li {
+            padding: 0px 16px;
+        }
+
+        .navbar {
+            margin-bottom: 0px;
+        }
+        /*-----------头部样式---------------*/
+
+        /*-----------底部样式---------------*/
+        .bs-docs-footer {
+            background-color: #2a2730;
+            color: #99979c;
+        }
+
+
+
+        .bs-docs-footer-links {
+            overflow: hidden;
+            padding-left: 0;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+            .bs-docs-footer-links li {
+                float: left;
+                list-style: none;
+                padding-right: 15px;
+            }
+
+                .bs-docs-footer-links li a {
+                    color: white;
+                }
+
+            .bs-docs-footer-links p {
+                margin-bottom: 0px;
+            }
+
+        .fixed-bottom {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /*-----------底部样式---------------*/
+
+
+    </style>
+    @RenderSection("Head")
+
+    <script>
+        $(function () {
+            function footerPosition() {
+                $("footer").removeClass("fixed-bottom");
+                var contentHeight = document.body.scrollHeight,//网页正文全文高度
+                    winHeight = window.innerHeight;//可视窗口高度，不包括浏览器顶部工具栏
+                if (!(contentHeight > winHeight)) {
+                    //当网页正文高度小于可视窗口高度时，为footer添加类fixed-bottom
+                    $("footer").addClass("fixed-bottom");
+                } else {
+                    $("footer").removeClass("fixed-bottom");
+                }
+            }
+            footerPosition();
+            $(window).resize(footerPosition);
+        });
+    </script>
+</head>
+<body onload="lunbuo()">
+    <div>
+        <div id="top">
+            <nav class="navbar navbar-inverse">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">taotao</a>
+                    </div>
+                    <!--logo-->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">配件专区 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    @*<li><a href="Shoping.aspx?id=1">轮胎</a></li>
+                                        <li><a href="Shoping.aspx?id=2">汽油</a></li>
+                                        <li><a href="Shoping.aspx?id=3">发动机</a></li>
+                                        <li><a href="Shoping.aspx?id=4">全金属刹车片</a></li>*@
+                                    @{
+                                        List<GoodsType> list = AbstractFactory.GetGoodsTypeService().LoadEntities(m => true).ToList();
+                                        for (int i = 0; i < 4; i++)
+                                        {
+                                            //<li><a href="/Goods/GoodsType/@list[i].goods_type_id">@list[i].goods_type_name</a></li>
+                                            <li><a href="@Url.Action("GoodsType","Goods", new {id=list[i].goods_type_id})">@list[i].goods_type_name</a></li>
+                                        }
+                                    }
+                                </ul>
+                                <!--下拉内容-->
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">油品和化学品 <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">全合成机油</a></li>
+                                    <li><a href="#">半合成机油</a></li>
+                                    <li><a href="#">矿物油</a></li>
+                                    <li><a href="#">过滤器</a></li>
+                                </ul>
+                                <!--下拉内容-->
+                            </li>
+                            <li><a href="#" onclick="set()">相关论坛</a></li>
+                            <li><a href="#">加入我们</a></li>
+                            <li><a href="#">售后服务</a></li>
+                        </ul>
+                        <!--前面内容-->
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                @{
+                                    if (Session["Userinfo"] != null)
+                                    {
+                                        UserInfo userInfo = (UserInfo)Session["UserInfo"];
+                                        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@userInfo.user_name&nbsp;&nbsp;&nbsp;<img class="img-rounded" style="width:25px;height:25px" src="@Setting.HeadPicFolder@userInfo.user_head_portrait" /><span class="caret"></span></a>
+                                        @*<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录<span class="caret"></span></a>*@
+                                    }
+                                    else
+                                    {
+                                        <a href="/User/Login" class="login-btn">登录</a>
+                                    }
+                                }
+
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("ShopCart","User")">我的购物车</a></li>
+                                    <li><a href="@Url.Action("PersonalCenter","User")">个人中心</a></li>
+                                    <li><a href="@Url.Action("Collect","User")">我的收藏</a></li>
+                                    <li><a href="@Url.Action("PurchaseHistory","User")">购买记录</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("Login","User")">退出登录</a></li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--登录-->
+                        <div class="navbar-form navbar-right">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="搜索" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <!--搜索框-->
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!--头部-->
+        @RenderBody()
+
+        <div id="foot">
+            <footer class="bs-docs-footer">
+                <div class="container">
+                    <ul class="bs-docs-footer-links">
+                        <li><a href="#">新浪微博</a></li>
+                        <li><a href="#">售后服务</a></li>
+                        <li><a href="#">联系我们</a></li>
+                        <li><a href="#">关于</a></li>
+                    </ul>
+                    <p>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</p>
+                    <p>版权所有 赛巴组 © 2018湖南工程专业技术学院</p>
+                </div>
+            </footer>
+        </div>
+        <!--底部-->
+    </div>
+   
+    <script src="http://cdn.bootcss.com/mdui/0.4.1/js/mdui.min.js"></script>
+    @RenderSection("Foot")
+</body>
+
+</html>

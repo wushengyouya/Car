@@ -1,0 +1,148 @@
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:05:35,335                                   
+【线程编号】[152]                                   
+【执行时间】[65]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:06:59,160                                   
+【线程编号】[130]                                   
+【执行时间】[55]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:2                                   
+【错误详情】
+                                   
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:06:59,240                                   
+【线程编号】[130]                                   
+【执行时间】[135]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:8                                   
+【错误详情】
+                                   
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:06:59,244                                   
+【线程编号】[130]                                   
+【执行时间】[139]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:9                                   
+【错误详情】
+                                   
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:06:59,246                                   
+【线程编号】[130]                                   
+【执行时间】[141]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:06:59,250                                   
+【线程编号】[130]                                   
+【执行时间】[145]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 212
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:09:29,588                                   
+【线程编号】[162]                                   
+【执行时间】[150482]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:11:14,925                                   
+【线程编号】[156]                                   
+【执行时间】[58]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:12:06,489                                   
+【线程编号】[140]                                   
+【执行时间】[51623]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:14:55,531                                   
+【线程编号】[61]                                   
+【执行时间】[220665]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:20:06,872                                   
+【线程编号】[61]                                   
+【执行时间】[532006]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Goods_GoodsType_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Goods\GoodsType.cshtml:行号 52
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:21:31,172                                   
+【线程编号】[160]                                   
+【执行时间】[616306]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Goods_GoodsType_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Goods\GoodsType.cshtml:行号 52
+
+＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝                                   
+【日志级别】ERROR                                   
+【记录时间】2018-06-12 10:23:47,039                                   
+【线程编号】[160]                                   
+【执行时间】[4691]毫秒                                   
+【出错的类】logerror 属性[(null)]                                   
+【错误描述】商品图片未主页显示上传异常,商品编号:1044                                   
+【错误详情】
+                                   
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ASP._Page_Views_Home_Index_cshtml.Execute() 位置 D:\ASP.NET\Car\WebUI\Views\Home\Index.cshtml:行号 211

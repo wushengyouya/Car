@@ -1,0 +1,73 @@
+﻿@using Common
+@model IEnumerable<WebUI.Models.UsersModel>
+@{
+    ViewBag.Title = "SearchUser";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@section Script
+{
+    <script>
+        $('#searchUser').on('keypress',
+            function (event) {
+                if (event.keyCode === 13) {
+                    window.location.href = "@Url.Action("SearchUser","UserManager")" + "?keyword=" + $(this).val();
+                }
+
+            });
+    </script>
+}
+
+<div class="mdui-row">
+    <div class="mdui-float-left mdui-m-b-2">
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></button>
+            <input id="searchUser" class="mdui-textfield-input" type="text" placeholder="输入用户名" />
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
+        </div>
+    </div>
+
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>编号</th>
+                <th>名字</th>
+                <th>邮箱</th>
+                <th>电话</th>
+                <th>性别</th>
+                <th>状态</th>
+                <th>地址</th>
+                <th>注册时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            @{
+                foreach (var itemModel in Model)
+                {
+                    <tr>
+                        <td><img src="@Setting.HeadPicFolder@itemModel.UserHeadPortrait" style="height: 25px; width: 25px;" /></td>
+                        <td>@itemModel.UserId</td>
+                        <td class="mdui-text-truncate" style="max-width: 110px;" title="@itemModel.UserName"><a href="@Url.Action("UserDetail", "UserManager", new {id = itemModel.UserId})">@itemModel.UserName</a></td>
+                        <td class="mdui-text-truncate" style="max-width: 130px;" title="@itemModel.UserEmail">@itemModel.UserEmail</td>
+                        <td>@itemModel.UserTel</td>
+                        <td>@itemModel.UserSex</td>
+                        <td>@itemModel.UserFlag</td>
+                        <td class="mdui-text-truncate" style="max-width: 200px;" title="@itemModel.UserAdress">@itemModel.UserAdress</td>
+                        <td>@itemModel.RegistTime</td>
+
+                    </tr>
+                }
+
+            }
+            </tbody>
+        </table>
+    </div>
+    @{
+        if (!Model.Any())
+        {
+            <h2 class="mdui-text-color-theme-accent">"当前搜索无用户"</h2>
+        }
+    }
+</div>
+

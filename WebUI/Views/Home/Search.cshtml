@@ -1,0 +1,111 @@
+﻿@using Common
+@model WebUI.Models.SearchModel
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+<section class="section-category">
+    <div class="b-page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 clearfix">
+                    <h3 class="page-title pull-left">搜索商品</h3>
+                    <div class="b-breadcrumbs pull-right">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="@Url.Action("Index","Home")">home</a>
+                            </li>
+
+                            <li>
+                                <span>搜索商品</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 mywishlist-container">
+                <div class="row">
+                    @{
+                        foreach (var item in Model.GoodsModels)
+                        {
+                            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                                <div class="b-item-card wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                                    <div class="image">
+                                        <a href="@Url.Action("GoodsDetail","Goods",new {id=item.Goods.goods_id})">
+                                            <img src="@Setting.GoodsPicFolder@item.Goods.Picture.FirstOrDefault().picture_adress" class="img-responsive center-block" alt="">
+                                        </a>
+                                        <div class="image-add-mod">
+                                            <div class="add-description">
+                                                <div>
+                                                    <span>@item.Goods.goods_name</span>
+                                                    <br>
+                                                    <span>@item.Goods.goods_title</span>
+                                                    <br>
+
+                                                    <a href="@Setting.GoodsPicFolder@item.Goods.Picture.FirstOrDefault().picture_adress" data-gal="prettyPhoto" title="底部配件" class="btn btn-lightbox btn-default-color1 btn-sm">
+                                                        <i class="fa fa-search-plus fa-lg"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-info">
+                                        <div class="caption">
+                                            <p class="name-item">
+                                                <a class="product-name" href="@Url.Action("GoodsDetail","Goods",new {id=item.Goods.goods_id})">@item.Goods.goods_name</a>
+                                            </p>
+                                            <span class="product-price">￥@item.Goods.goods_price</span>
+                                        </div>
+
+                                        <div class="add-buttons">
+                                            @{
+                                                if (item.UserIsCollectGoods)
+                                                {
+                                                    <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@item.Goods.goods_id"><i class="fa fa-heart"></i></button>
+
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-add btn-add-wish collectGoods" data-goods-id="@item.Goods.goods_id"><i class="fa fa-heart-o"></i></button>
+
+                                                }
+                                            }
+                                            <button type="button" class="btn btn-add btn-add-cart addShopCart" data-goods-id="@item.Goods.goods_id"><i class="fa fa-shopping-cart"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+
+
+                </div>
+                @{
+                    if (Model.GoodsModels.Count==0)
+                    {
+                        <h4>"@Model.GoodsName",无此商商品。</h4>
+                    }
+                }
+            </div>
+            @*<div class="col-sm-12 text-center">分页
+                <nav>
+                    <ul class="pagination pagination-mod pagination-color1 wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                    </ul>
+                </nav>
+            </div>*@
+        </div>
+    </div>
+</section>
+

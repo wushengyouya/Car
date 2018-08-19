@@ -1,0 +1,376 @@
+﻿@using Common
+@using Model
+@using WebUI.Models
+@model IEnumerable<WebUI.Models.OrderInfoModel>
+@{
+    ViewBag.Title = "StayComment";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Head
+{
+    <style>
+        #middle {
+            background-color: #fff;
+        }
+
+        .list-item {
+            float: left;
+            margin: 0;
+            padding: 18px 0;
+            list-style-type: none;
+            font-size: 16px;
+            line-height: 1.25;
+        }
+
+            .list-item li {
+                list-style: none;
+                float: left;
+                font-size: 16px;
+                padding: 0 20px;
+                border-left: 1px solid #808080;
+            }
+
+                .list-item li a {
+                    text-decoration: none;
+                    color: #757575;
+                }
+
+                    .list-item li a:hover {
+                        cursor: pointer;
+                        color: #fb6018;
+                    }
+
+            .list-item .item-active {
+                padding-left: 0px;
+                border-left: none;
+            }
+
+        .table-responsive {
+            border: 1px solid #808080;
+            margin-bottom: 20px;
+            background-color: #fff;
+        }
+
+        .table {
+            margin-bottom: 10px;
+        }
+
+        .shop-state {
+            padding: 25px 30px 1px;
+            font-size: 18px;
+            color: #808080;
+        }
+
+        .table thead tr th {
+            height: 28px;
+            padding: 0 30px 24px;
+            border-bottom: 1px solid #808080;
+            font-weight: 400;
+            text-align: left;
+            color: #757575;
+            vertical-align: bottom;
+        }
+
+        .table thead tr .shop-desc {
+            padding-top: 10px;
+        }
+
+        .table thead tr .shop-price {
+            text-align: right;
+        }
+
+            .table thead tr .shop-price a {
+                text-decoration: none;
+                color: black;
+                font-size: 18px;
+            }
+
+        .table tbody tr td {
+            padding: 0 30px;
+            border: none;
+        }
+
+            .table tbody tr td img {
+                width: 80px;
+                height: 80px;
+            }
+
+        .table tbody tr .shop-pic .shop-lists {
+            margin: 0;
+            padding: 10px 0;
+            list-style-type: none;
+        }
+
+            .table tbody tr .shop-pic .shop-lists li {
+                position: relative;
+                height: 80px;
+                margin: 10px 0;
+                padding: 18px 18px 18px 100px;
+                line-height: 22px;
+                color: #333;
+            }
+
+        .figure-thumb {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .shop-name {
+            position: relative;
+            top: -3px;
+            left: 8px;
+        }
+
+        .p-price {
+            position: relative;
+            top: -7px;
+            left: 8px;
+        }
+
+        .shouhuoxingxi div h3 {
+            margin: 0 0 15px;
+            font-size: 18px;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .shouhuoxingxi div p {
+            font-weight: 400;
+            color: #808080;
+        }
+
+        .delete-shop {
+            color: black;
+            text-decoration: none;
+            border: 1px solid #808080;
+            padding: 10px 30px;
+            position: relative;
+            left: 155px;
+        }
+
+            .delete-shop:hover {
+                color: #fff;
+                background-color: #6d6b6b;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+
+        .fenye {
+            height: 30px;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+            .fenye .numbers {
+                display: inline-block;
+                width: 48px;
+                height: 40px;
+                padding: 3px 0;
+                margin: 0 7px;
+                font-size: 18px;
+                font-weight: 200;
+                line-height: 40px;
+                color: #b0b0b0;
+                cursor: pointer;
+            }
+
+                .fenye .numbers .mdui-icon {
+                    font-size: 40px;
+                }
+
+            .fenye .current {
+                background-color: #757575;
+                color: #fff;
+                font-weight: 500;
+                cursor: auto;
+            }
+
+        #example-1 {
+            width: 400px;
+        }
+
+        .mdui-dialog-content {
+            color: black;
+        }
+    </style>}
+
+@section Foot
+{
+    <script>
+        $("a.comment").click(function () {
+            var orderId = $(this).attr("data-order-id");
+            var goodsId = $(this).attr("data-goods-id");
+            $("input[name='orderId']").val(orderId);
+            $("input[name='goodsId']").val(goodsId);
+            $("span#goodsName").html($(this).attr("data-goods-name"));
+        });
+        $("button#btnComment").click(function() {
+            $("form#formComment").submit();
+        });
+    </script>
+}
+<div class="b-page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 clearfix">
+                <h3 class="page-title pull-left" >待评论</h3>
+                <div class="b-breadcrumbs pull-right">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="@Url.Action("Index", "Home")">home</a>
+                        </li>
+                        <li>
+                            <span>待评论</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="middle">
+    @*<%-- 内容--%>*@
+    <div class="container">
+        <h3>购买记录</h3>
+        @*<%--导航--%>*@
+        <div class="purchase-mean clearfix">
+            <ul class="list-item">
+                <li class="item-active"><a href="@Url.Action("PurchaseHistory","User")">全部有效订单</a></li>
+                <li><a href="@Url.Action("StayPay","User")">待支付</a></li>
+                <li><a href="@Url.Action("StaySendOut","User")">待发货</a></li>
+                <li><a href="@Url.Action("StayReceiving","User")">待收货</a></li>
+                <li><a href="@Url.Action("StayComment","User")">待评论</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            @{
+                UserInfo user = ViewBag.user;
+                foreach (OrderInfoModel orderInfo in Model)
+                {
+                    <div class="table-responsive">
+                        <div class="shop-state  mdui-text-color-deep-orange" style="color: #e24545">
+                            @orderInfo.OrderFlag
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="shop-desc">下单时间:@orderInfo.OrderTime|快递编号:@orderInfo.OrderExpressId|订单号：@orderInfo.OrderId</th>
+                                    <th class="shop-price">订单金额：<a>@orderInfo.OrderTotalMoney</a>元</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    List<Order_Goods> orderGoodses = orderInfo.OrderGoods.Where(m => m.is_commect == 0).ToList();
+                                    //订单的商品
+                                    foreach (Order_Goods orderGoods in orderGoodses)
+                                    {
+                                        Goods goods = orderGoods.Goods;
+                                        Picture picture = goods.Picture.FirstOrDefault();
+
+
+                                        <tr>
+                                            <td class="shop-pic">
+                                                <div class="row">
+                                                    <div class="col-sm-10">
+                                                        <ul class="shop-lists">
+                                                            <li>
+                                                                <div class="figure-thumb">
+                                                                    <a href="@Url.Action("GoodsDetail","Goods",new {id=goods.goods_id})" title="@goods.goods_name">
+                                                                        <img style="height: 80px; width: 80px;" src="@Setting.GoodsPicFolder@picture.picture_adress" />
+                                                                    </a>
+                                                                </div>
+                                                                <p class="shop-name">@goods.goods_name</p>
+                                                                <p class="p-price"><span>@goods.goods_price</span>元 × @orderGoods.goods_count</p>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-2" style="line-height: 120px;">
+                                                        <a class="delete-shop  comment" data-goods-name="@goods.goods_name" data-order-id="@orderInfo.OrderId" data-goods-id="@goods.goods_id" data-target="#comment" data-toggle="modal">
+                                                            评论
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <!-- <td class="delete-shop">
+                                                @*<%--弹出提示框删除--%>*@
+                                                <a mdui-dialog="{target: '#example-1'}">
+                                                    删除订单
+                                                </a>
+                                            </td>-->
+                                           
+                                        </tr>
+
+                                    }
+                                }
+
+
+                                <tr>
+                                    <td class="shouhuoxingxi">
+                                        <div>
+                                            <div class="mdui-row-xs-2">
+
+                                                <h3>收货信息</h3>
+                                                <p>收货人： @user.receiver</p>
+                                                <p>联系电话： @user.user_tel</p>
+                                                <p>收货地址： @user.user_adress</p>
+
+
+                                                <div class="mdui-col"></div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                }
+            }
+
+            @*<%--订单列表--%>*@
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="comment" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">当前评论的商品是:<span style="color: #e24545" id="goodsName"></span></h4>
+            </div>
+            <div class="modal-body">
+                <form id="formComment" action="@Url.Action("StayComment","User")" method="post">
+
+                    <div class="modal-body">
+                        <div class="container">
+                            <input type="hidden" name="orderId" value="" />
+                            <input type="hidden" name="goodsId" value="" />
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <textarea style="padding: 20px;" class="form-control" type="text" name="comment" placeholder="输入评论"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" id="btnComment" class="btn btn-primary" data-dismiss="modal">确认</button>
+                    </div>
+                </form>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

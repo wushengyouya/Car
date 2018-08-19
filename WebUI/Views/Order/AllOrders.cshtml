@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebUI.Models.AllOrdersModel>
+@{
+    ViewBag.Title = "AllOrders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<div class="mdui-row">
+    
+    
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table">
+            <thead>
+            <tr>
+                <th>订单编号</th>
+                <th>下单用户</th>
+                <th>订单状态</th> 
+                <th>快递编号</th>
+                <th>下单时间</th> 
+                <th>订单总额</th>
+                
+            </tr>
+            </thead>
+            <tbody>
+                  @{
+                      foreach (var item in Model)
+                      {
+                          <tr>
+                              <td><a mdui-tooltip="{content: '订单详情'}" href="@Url.Action("UserOrderDetail","Order",new{orderId=item.OrderId})">@item.OrderId</a></td>
+                              <td>@item.UserName</td>
+                              <td>@item.OrderFlag</td>
+                              <td>@item.OrderExpressId</td>
+                              <td>@item.OrderTime</td>
+                              <td>@item.OrderTotalMoney<span>元</span></td>
+                          </tr>
+                      }
+                  }  
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

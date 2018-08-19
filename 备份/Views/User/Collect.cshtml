@@ -1,0 +1,127 @@
+﻿@model ViewModel
+@using Common
+@using Model
+@{
+    ViewBag.Title = "Collect";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Head
+{
+    <style>
+        #middle {
+            background: #f5f5f5;
+        }
+
+        .thumbnail:hover {
+            box-shadow: 2px 2px 2px #808080;
+        }
+
+        .caption {
+            overflow: hidden;
+        }
+
+            .caption a {
+                color: #6d6a6a;
+                text-decoration: none;
+            }
+
+            .caption h4 {
+                text-align: center;
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+                .caption h4 a {
+                    color: #fb6018;
+                }
+
+            .caption h3 {
+                text-align: center;
+                font-size: 14px;
+            }
+
+                .caption h3 a:hover {
+                    color: #fb6018;
+                }
+
+            .caption .delete-collect {
+                font-size: 12px;
+                border: 1px solid #808080;
+                width: 100px;
+                height: 30px;
+                float: left;
+                text-align: center;
+                line-height: 30px;
+                margin-right: 11px;
+                visibility: hidden;
+            }
+
+                .caption .delete-collect:hover {
+                    color: #fff;
+                    background-color: #6d6b6b;
+                }
+
+            .caption .get-collect {
+                font-size: 12px;
+                border: 1px solid #ff6700;
+                background-color: #ff6700;
+                color: #fff;
+                width: 100px;
+                height: 30px;
+                float: left;
+                text-align: center;
+                line-height: 30px;
+                margin-left: 22px;
+                visibility: hidden;
+            }
+    </style>
+}
+@section Foot
+{
+    <script>
+        function over(id) {
+            var a = id.children[1];
+            var b = a.lastElementChild;
+            var c = b.previousElementSibling;
+            b.style.visibility = 'visible';
+            c.style.visibility = 'visible';
+        }
+        function out(id) {
+            var a = id.children[1];
+            var b = a.lastElementChild;
+            var c = b.previousElementSibling;
+            b.style.visibility = 'hidden';
+            c.style.visibility = 'hidden';
+        }
+    </script>
+}
+<div id="middle">
+    <div class="container">
+        <h3>我的收藏</h3>
+        <div class="row">
+            @*<%-- 收藏--%>*@
+            
+            @{
+                foreach (Goods goods in Model.GoodsList)
+                {
+                    Picture picture = goods.Picture.FirstOrDefault();
+                    <div class="col-sm-3">
+                        <div class="thumbnail" onmouseover="over(this)" onmouseout="out(this)">
+                            <a href='#'>
+                                <img style="height: 252.5px;width: 252.5px" src="@Setting.GoodsPicFolder@picture.picture_adress" />
+                            </a>
+                            <div class="caption">
+                                <h3><a href="#">@goods.goods_name</a></h3>
+                                <h4><a><span>@goods.goods_price</span>元</a></h4>
+                                <a href="#" class="delete-collect">删除</a>
+                                <a href="#" class="get-collect">查看详情</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+         
+        </div>
+    </div>
+</div>
+

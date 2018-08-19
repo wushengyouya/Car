@@ -1,0 +1,42 @@
+﻿@using BLL
+@model IEnumerable<WebUI.Models.CommentModel>
+@{
+    ViewBag.Title = "UserComment";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="mdui-row">
+   
+
+    <div class="mdui-table-fluid mdui-hoverable mdui-table-hoverable">
+        <table class="mdui-table">
+            <thead>
+                <tr>
+                    <th>评论编号</th>
+                    <th>评论用户</th>
+                    <th>评论商品</th>
+                    <th>评论类容</th>
+                    <th>评论时间</th>
+                    <th>评论状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Comment.comment_id</td>
+                                <td><a href="@Url.Action("UserDetail","UserManager",new {id=item.UserInfo.user_id})">@item.UserInfo.user_name</a></td>
+                                <td><a href="@Url.Action("GoodsManagerDetail","GoodsManager",new {id=item.Goods.goods_id})">@item.Goods.goods_name</a></td>
+                                <td class="mdui-text-truncate" style="max-width: 300px;" title="@item.Comment.comment_content">@item.Comment.comment_content</td>
+                                <td>@item.Comment.comment_time</td>
+                                <td>@Tool.CommentFlagTostring((Tool.CommentFlag) item.Comment.comment_flag)</td>
+                            </tr>
+                        }
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

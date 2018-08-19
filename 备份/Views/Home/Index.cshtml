@@ -1,0 +1,287 @@
+﻿@model dynamic
+@using Common
+@using Model
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+@section Head{
+    <style>
+        /*-----------内容样式---------------*/
+        #daohanglan {
+            background-color: #cfcaca;
+        }
+
+        .col-xs-3 {
+            height: 45px;
+        }
+
+            .col-xs-3 p {
+                text-align: center;
+                line-height: 45px;
+            }
+
+                .col-xs-3 p a {
+                    color: black;
+                    text-decoration: none;
+                }
+
+        @@media (max-width: 768px) {
+            .col-xs-3 p a {
+                font-size: 12px;
+            }
+
+            .col-xs-3 {
+                padding: 0 0;
+            }
+        }
+
+        .col-xs-3:hover {
+            cursor: pointer;
+        }
+
+        .daohang_1 {
+            background-color: white;
+        }
+
+        .thumbnail {
+            border: none;
+            margin-bottom: 0px;
+        }
+
+        .caption {
+            margin-top: -40px;
+        }
+
+            .caption h3 {
+                text-align: center;
+            }
+
+                .caption h3:hover {
+                    cursor: pointer;
+                }
+
+            .caption h4 {
+                text-align: center;
+            }
+
+        .neiron2 {
+            display: none;
+        }
+
+        .neiron3 {
+            display: none;
+        }
+
+        .neiron4 {
+            display: none;
+        }
+        /*-----------内容样式---------------*/
+    </style>
+}
+@section Foot{
+    <script>
+        function lunbuo() {  //图片轮播
+            $('.carousel').carousel();
+        }
+        $(function () { //内容导航栏
+            $('.daohang_1').click(function () {
+                $('.daohang_1').css('background-color', 'white');
+                $('.daohang_2').css('background-color', '#cfcaca');
+                $('.daohang_3').css('background-color', '#cfcaca');
+                $('.daohang_4').css('background-color', '#cfcaca');
+                $('.neiron1').attr("style", "display:block;");
+                $('.neiron2').attr("style", "display:none;");
+                $('.neiron3').attr("style", "display:none;");
+                $('.neiron4').attr("style", "display:none;");
+            });
+            $('.daohang_2').click(function () {
+                $('.daohang_2').css('background-color', 'white');
+                $('.daohang_1').css('background-color', '#cfcaca');
+                $('.daohang_3').css('background-color', '#cfcaca');
+                $('.daohang_4').css('background-color', '#cfcaca');
+                $('.neiron2').attr("style", "display:block;");
+                $('.neiron1').attr("style", "display:none;");
+                $('.neiron3').attr("style", "display:none;");
+                $('.neiron4').attr("style", "display:none;");
+            });
+            $('.daohang_3').click(function () {
+                $('.daohang_3').css('background-color', 'white');
+                $('.daohang_2').css('background-color', '#cfcaca');
+                $('.daohang_1').css('background-color', '#cfcaca');
+                $('.daohang_4').css('background-color', '#cfcaca');
+                $('.neiron3').attr("style", "display:block;");
+                $('.neiron2').attr("style", "display:none;");
+                $('.neiron1').attr("style", "display:none;");
+                $('.neiron4').attr("style", "display:none;");
+            });
+            $('.daohang_4').click(function () {
+                
+                $('.daohang_4').css('background-color', 'white');
+                $('.daohang_1').css('background-color', '#cfcaca');
+                $('.daohang_2').css('background-color', '#cfcaca');
+                $('.daohang_3').css('background-color', '#cfcaca');
+                $('.neiron4').attr("style", "display:block;");
+                $('.neiron2').attr("style", "display:none;");
+                $('.neiron3').attr("style", "display:none;");
+                $('.neiron1').attr("style", "display:none;");
+            });
+        });
+    </script>
+}
+
+<div id="middle-top">
+    <div class="carousel slide" id="myCarousel">
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- 轮播（Carousel）项目 -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <a href="#">
+                    <img src="~/Content/images/banner1.jpg" class="img-responsive"/>
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <img src="~/Content/images/banner2.jpg" class="img-responsive" />
+                </a>
+            </div>
+            <div class="item">
+                <a href="#">
+                    <img src="~/Content/images/banner3.jpg" class="img-responsive" />
+                </a>
+            </div>
+        </div>
+        <!-- 轮播（Carousel）导航 -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div><!--巨幕轮播-->
+</div><!--内容上部-->
+
+<div id="middle-bottom">
+    <div id="daohanglan">
+        <div class="container  clearfix">
+            <div class="row">
+                @*<div class="col-xs-3 daohang_1">
+                        <p class="main-category-name"><a href="#">轮胎</a></p>
+                    </div>
+                    <div class="col-xs-3 daohang_2">
+                        <p class="main-category-name"><a href="#"></a>汽油</p>
+                    </div>
+                    <div class="col-xs-3 daohang_3">
+                        <p class="main-category-name"><a href="#">发动机</a></p>
+                    </div>
+                    <div class="col-xs-3 daohang_4">
+                        <p class="main-category-name"><a href="#">全金属刹车片</a></p>
+                    </div>*@
+                @{
+                    for (int i = 0; i < Model.goodsType.Count; i++)
+                    {
+                        int index = i + 1;
+                        <div class="col-xs-3 daohang_@index">
+                            <p class="main-category-name"><a href="@Url.Action("GoodsType","Goods",new {id=Model.goodsType[i].goods_type_id})">@Model.goodsType[i].goods_type_name</a></p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div><!--内容导航条-->
+    <div id="neiron">
+        <div class="container  clearfix">
+            <div class="row">
+                <div class="neiron1">
+
+                    @{
+                        foreach (Goods goods in Model.goodsOne)
+                        {
+                            Picture pic = goods.Picture.FirstOrDefault();
+                            <div class="col-sm-3">
+                                <div class="thumbnail">
+                                    <a href="@Url.Action("GoodsDetail","Goods",new {id=@goods.goods_id})">
+                                        <img style="height: 254.5px; width: 254.5px;" src="@Setting.GoodsPicFolder@pic.picture_adress" />
+                                    </a>
+                                    <div class="caption mdui-m-t-1">
+                                        <h3 style="text-align: center">@goods.goods_name</h3>
+                                        <h4 style="font-size: 12px;">@goods.goods_title</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    }
+                </div>
+                <div class="neiron2">
+                    @{
+                        foreach (Goods goods in Model.goodsTwo)
+                        {
+                            Picture pic = goods.Picture.FirstOrDefault();
+                            <div class="col-sm-3">
+                                <div class="thumbnail">
+                                    <a href="@Url.Action("GoodsDetail","Goods",new {id=@goods.goods_id})">
+                                        <img style="height: 254.5px; width: 254.5px;" src="@Setting.GoodsPicFolder@pic.picture_adress" />
+                                    </a>
+                                    <div class="caption  mdui-m-t-1">
+                                        <h3 style="text-align: center">@goods.goods_name</h3>
+                                        <h4 style="font-size: 12px;">@goods.goods_title</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    }
+                </div>
+                <div class="neiron3">
+                    @{
+                        foreach (Goods goods in Model.goodsThree)
+                        {
+                            Picture pic = goods.Picture.FirstOrDefault();
+                            <div class="col-sm-3">
+                                <div class="thumbnail">
+                                    <a href="@Url.Action("GoodsDetail","Goods",new {id=@goods.goods_id})">
+                                        <img style="height: 254.5px; width: 254.5px;"  src="@Setting.GoodsPicFolder@pic.picture_adress" />
+                                    </a>
+                                    <div class="caption  mdui-m-t-1">
+                                        <h3 style="text-align: center">@goods.goods_name</h3>
+                                        <h4 style="font-size: 12px;">@goods.goods_title</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    }
+                </div>
+                <div class="neiron4">
+                    @{
+                        foreach (Goods goods in Model.goodsFour)
+                        {
+                            Picture pic = goods.Picture.FirstOrDefault();
+                            <div class="col-sm-3">
+                                <div class="thumbnail">
+                                    <a href="@Url.Action("GoodsDetail","Goods",new {id=@goods.goods_id})">
+                                        <img style="height: 254.5px; width: 254.5px;"  src="@Setting.GoodsPicFolder@pic.picture_adress" />
+                                    </a>
+                                    <div class="caption  mdui-m-t-1">
+                                        <h3 style="text-align: center">@goods.goods_name</h3>
+                                        <h4 style="font-size: 12px;">@goods.goods_title</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div><!--内容主体-->
+</div><!--内容下部-->

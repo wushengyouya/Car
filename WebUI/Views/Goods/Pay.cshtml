@@ -1,0 +1,415 @@
+﻿@model WebUI.Models.PayModel
+@using Common
+@using Model
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_Home.cshtml";
+}
+
+@section Head
+{
+    <style>
+        @@media (max-width: 768px) {
+            #middle .back-cart {
+                margin-left: 0px;
+            }
+
+            #middle .items-price {
+                text-align: left;
+            }
+
+            #middle .items-status {
+                width: 0px;
+            }
+
+            #middle .itmes-total {
+                text-align: left;
+            }
+        }
+
+        #middle {
+            background-color: #f5f5f5;
+            padding-top: 0px;
+            padding-bottom: 60px;
+        }
+
+        .checkout-box {
+            padding: 48px 0 0;
+            background-color: #fff;
+        }
+
+        .address {
+            margin-left: 48px;
+            margin-right: 48px;
+        }
+
+        .address-head {
+            margin-bottom: 20px;
+        }
+
+        .title {
+            float: left;
+            color: #333;
+            font-size: 18px;
+            line-height: 20px;
+            font-weight: normal;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .add-address {
+            margin-left: -18px;
+        }
+
+        .address-item {
+            float: left;
+            margin-left: 17px;
+            margin-bottom: 24px;
+            width: 268px;
+            height: 178px;
+            border: 1px solid #ff6700;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .address-item dl {
+                padding-left: 25px;
+                padding-top: 20px;
+            }
+
+                .address-item dl dd {
+                    width: 200px;
+                }
+
+                    .address-item dl dd a {
+                        text-decoration: none;
+                        color: #808080;
+                    }
+
+        .user-name {
+            margin-bottom: 10px;
+        }
+
+            .user-name a {
+                text-decoration: none;
+                color: #333;
+                font-weight: 500;
+                font-size: 18px;
+            }
+
+        .update-address {
+            width: 50px;
+            margin-left: 210px;
+        }
+
+            .update-address a {
+                text-decoration: none;
+                color: #ff6700;
+            }
+
+        .section {
+            padding: 25px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+            .section span {
+                margin-left: 100px;
+                color: #ff6700;
+            }
+
+                .section span a {
+                    text-decoration: none;
+                    color: #808080;
+                    cursor: pointer;
+                }
+
+                    .section span a i {
+                        position: relative;
+                        left: -5px;
+                        top: -1px;
+                    }
+
+            .section .back-cart {
+                float: right;
+            }
+
+        .section-body .items-cart {
+            padding-bottom: 0px;
+        }
+
+        .goods-items {
+            padding: 5px 0;
+            border-bottom: 1px solid #e0e0e0;
+            list-style: none;
+        }
+
+            .goods-items li {
+                padding: 10px 0;
+            }
+
+                .goods-items li .items-pic {
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 10px;
+                }
+
+                    .goods-items li .items-pic img {
+                        width: 30px;
+                        height: 30px;
+                    }
+
+                .goods-items li .col {
+                    float: left;
+                    line-height: 30px;
+                    color: #424242;
+                }
+
+                .goods-items li .items-name {
+                    width: 650px;
+                }
+
+                .goods-items li a {
+                    text-decoration: none;
+                    color: #424242;
+                }
+
+                .goods-items li .items-price {
+                    width: 150px;
+                    text-align: center;
+                }
+
+                .goods-items li .items-status {
+                    width: 100px;
+                }
+
+                .goods-items li .itmes-total {
+                    width: 100px;
+                    text-align: center;
+                    color: #ff6700;
+                }
+
+                    .goods-items li .itmes-total a {
+                        color: #ff6700;
+                    }
+
+        .section-btn {
+            padding: 20px 0px;
+        }
+
+            .section-btn .section-bor {
+                float: right;
+                text-decoration: none;
+                color: white;
+                height: 40px;
+                background-color: #ff6700;
+                width: 130px;
+                text-align: center;
+                line-height: 40px;
+            }
+
+            .section-btn .section-money {
+                text-decoration: none;
+                color: #ff6700;
+                line-height: 40px;
+            }
+    </style>
+}
+@section Foot
+{
+    <script id="receiverInfoView" type="text/html">
+        
+            <dt class="user-name"><a>{{receiver}}</a></dt>
+            <dd><a>{{user_tel}}</a></dd>
+            <dd>
+                <a>{{user_adress}}</a>
+            </dd>
+       
+    </script>
+    <script>
+        $("button#btnPay").click(function () {
+            //无收货地址提示修改
+            if ($("input[name='user_adress']").val()==="") {
+                toastr.info("请先修改收货信息");
+                return;
+            }
+            $("form#formPay").submit();
+        });
+        $("button#btnSaveUserInfo").click(function() {
+            $.ajax({
+                url: "@Url.Action("EditReciverInfo", "User")",
+                type: "post",
+                data: $("form#formUserEdit").serialize(),
+                dataType: "json",
+                success: function(data) {
+                    if (data.Msg === "ok") {
+                        toastr.success("修改收货地址成功");
+                        $("dl#receiverInfo").html(template("receiverInfoView", data.User));
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    toastr.error("修改收货地址失败");
+                }
+            });
+        });
+    </script>
+}
+    <div style="background-color: #f5f5f5">
+        <div class="b-page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 clearfix">
+                        <h3 class="page-title pull-left">支付</h3>
+                        <div class="b-breadcrumbs pull-right">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="@Url.Action("Index", "Home")">home</a>
+                                </li>
+                                <li>
+                                    <span>支付</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="middle">
+            <div class="container">
+                <h3>提交订单</h3>
+                <div class="checkout-box">
+                    <div class="address">
+                        <div class="address-head clearfix">
+                            <h3 class="title">收货地址</h3>
+
+                        </div>
+                        <div class="add-address clearfix">
+                            <div class="address-item">
+                                @{
+                                    <dl id="receiverInfo">
+                                        <dt class="user-name"><a>@Model.UserInfo.receiver</a></dt>
+                                        <dd><a>@Model.UserInfo.user_tel</a></dd>
+                                        <dd>
+
+                                            <a>@Model.UserInfo.user_adress</a>
+                                        </dd>
+                                    </dl>
+                                }
+
+                                <div class="update-address">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#editUserInfo">修改</a>
+                                </div>
+                            </div>
+                        </div>@*<%--收货地址--%>*@
+                        <div class="section clearfix">
+                            <h3 class="title">配送方式</h3>
+                            <span>快递配送</span>
+                        </div>
+                        <div class="section clearfix">
+                            <h3 class="title">配送时间</h3>
+                            <span>不限送货时间：周一至周日</span>
+                        </div>
+                        <div class="section-body">
+                            <div class="section clearfix items-cart">
+                                <h3 class="title">商品列表</h3>
+                                <span class="back-cart"><a href="/User/ShopCart">返回购物车</a></span>
+                            </div>
+                            <div class="goods-body">
+                                <ul class="goods-items">
+
+                                    @{
+                                        for (int i = 0; i < Model.OrderGoodses.Count; i++)
+                                        {
+                                            //dy.orderGoods = orderGoods;
+                                            //dy.goods = goodsList;
+                                            Order_Goods orderGoods = Model.OrderGoodses[i];
+                                            Goods goods = Model.Goodses[i];
+                                            Picture picture = goods.Picture.FirstOrDefault();
+                                            <li class="clearfix">
+                                                <div class="items-pic col">
+                                                    <img style="height: 30px; width: 30px;" src="@Setting.GoodsPicFolder@picture.picture_adress"/>
+                                                </div>
+                                                <div class="items-name col">
+                                                    <a>@goods.goods_name</a>
+                                                </div>
+                                                <div class="items-price col">
+                                                    <a><span>@goods.goods_price</span>元x<span>@orderGoods.goods_count</span></a>
+                                                </div>
+                                                <div class="items-status col">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="col itmes-total">
+                                                    <a>@orderGoods.goods_money<span>元</span></a>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                            <div class="section-btn clearfix">
+                                <a class="section-money">应付总额：<span>@Model.OrderInfo.order_totalMoney</span>元</a>
+                                <a class="section-bor" id="nowPay" orderId="@Model.OrderInfo.order_id" href="javascript:void(0)" data-target="#pay" data-toggle="modal"><span>立即付款</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-sm" id="pay" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title"><h4>即将支付:<span style="color: #e24545">@Model.OrderInfo.order_totalMoney<span>元</span></span></h4></div></div>
+                <form id="formPay" action="@Url.Action("StayPay", "User")" method="post">
+
+                    <input type="hidden" id="inputOrderId" name="orderId" value="@Model.OrderInfo.order_id"/>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" id="btnPay" class="btn btn-primary" data-dismiss="modal">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="editUserInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="set-editprofile">修改收货信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formUserEdit" action="@Url.Action("PersonalCenter", "User")" method="post">
+                        <input type="hidden" name="user_id" value="@Model.UserInfo.user_id"/>
+                        <div>
+                            <div class="form-group">
+                                <label for="recipient-name" class="control-label">收货人</label>
+                                <input type="text" class="form-control" value="@Model.UserInfo.receiver" name="receiver">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="control-label">地址</label>
+                                <input type="text" class="form-control" name="user_adress" value="@Model.UserInfo.user_adress"> @*<%--详细地址信息--%>*@
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <label>电话</label>
+                                <input type="tel" class="form-control" name="user_tel" value="@Model.UserInfo.user_tel" placeholder="Email">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="btnSaveUserInfo" class="btn btn-primary" data-dismiss="modal">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
